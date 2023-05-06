@@ -32,6 +32,9 @@ request.onupgradeneeded = function (event) {
 request.onsuccess = function (event) {
   db = event.target.result;
   console.log("Database connection established.");
+
+  const workoutList = document.getElementById("workout-list");
+  getWorkoutLogs(workoutList);
 };
 
 // add a new workout log to the database
@@ -42,6 +45,8 @@ function addWorkoutLog(workoutLog) {
 
   request.onsuccess = function (event) {
     console.log("Workout log added to database.");
+    const workoutList = document.getElementById("workout-list");
+    getWorkoutLogs(workoutList);
   };
 
   request.onerror = function (event) {
@@ -49,14 +54,25 @@ function addWorkoutLog(workoutLog) {
   };
 }
 
-// retrieve all workout logs from the database
-function getWorkoutLogs() {
+// retrieve all workout logs from the database and render them in the provided container
+function getWorkoutLogs(container) {
   const transaction = db.transaction(["workout_logs"], "readonly");
   const workoutLogs = transaction.objectStore("workout_logs");
   const request = workoutLogs.getAll();
 
   request.onsuccess = function (event) {
-    console.log("Retrieved workout logs from database:", event.target.result);
+    const workouts = event.target.result;
+
+    // Clear previous workouts
+    container.innerHTML = "";
+
+    // Render each workout in the container
+    workouts.forEach((workout) => {
+      const workoutElement = document.createElement("div");
+      workoutElement.textContent = `${workout.date}: ${workout.exercise} - ${workout.weight} lbs x ${workout.reps}`;
+
+      container.appendChild(workoutElement);
+    });
   };
 
   request.onerror = function (event) {
@@ -81,6 +97,26 @@ function searchWorkoutLogsByDate(date) {
   request.onerror = function (event) {
     console.log(
       "Failed to retrieve workout logs from database:",
+      event.target.error
+    );
+  };
+}
+
+// Clear all workout logs from the database and the displayed container
+function clearWorkouts() {
+  const transaction = db.transaction(["workout_logs"], "readwrite");
+  const workoutLogs = transaction.objectStore("workout_logs");
+  const request = workoutLogs.clear();
+
+  request.onsuccess = function (event) {
+    const workoutList = document.getElementById("workout-list");
+    workoutList.innerHTML = ""; // Clear the displayed container
+    console.log("Workout logs cleared from the database.");
+  };
+
+  request.onerror = function (event) {
+    console.error(
+      "Failed to clear workout logs from the database:",
       event.target.error
     );
   };

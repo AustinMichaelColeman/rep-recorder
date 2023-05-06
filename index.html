@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rep Recorder</title>
+  </head>
+  <body>
+    <h1>Rep Recorder</h1>
+    <form id="workout-form">
+      <label for="date">Date:</label>
+      <input type="date" id="date" required />
+      <br />
+      <label for="exercise">Exercise:</label>
+      <input type="text" id="exercise" required />
+      <br />
+      <label for="weight">Weight:</label>
+      <input type="number" id="weight" required />
+      <br />
+      <label for="reps">Reps:</label>
+      <input type="number" id="reps" required />
+      <br />
+      <button type="submit">Add Workout Log</button>
+    </form>
+    <div id="workout-list">
+      <!-- Container for displaying workouts -->
+    </div>
+    <button id="clear-workouts-btn">Clear Workouts</button>
+    <script src="workout-db.js"></script>
+    <script>
+      // Add event listeners for the buttons
+      document
+        .getElementById("workout-form")
+        .addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          const workoutLog = {
+            date: event.target.date.value,
+            exercise: event.target.exercise.value,
+            weight: parseInt(event.target.weight.value),
+            reps: parseInt(event.target.reps.value),
+          };
+
+          addWorkoutLog(workoutLog);
+        });
+
+      // Add event listener for the "Clear Workouts" button
+      document
+        .getElementById("clear-workouts-btn")
+        .addEventListener("click", () => {
+          clearWorkouts();
+        });
+    </script>
+  </body>
+</html>
