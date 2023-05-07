@@ -1,5 +1,7 @@
 # rep-recorder
 
+You can see it live at https://www.austincoleman.dev/rep-recorder/
+
 A workout tracking website. The data will be local to the browser, perhaps with the ability to back up and restore the data to the user's Google Drive.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
