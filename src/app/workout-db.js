@@ -25,6 +25,7 @@ export async function addWorkoutLog(workoutLog) {
 
   await store.add(workoutLog);
   await tx.done;
+  db.close();
 }
 
 // Function to retrieve all workout logs from the database
@@ -33,7 +34,9 @@ export async function getWorkoutLogs() {
   const tx = db.transaction(WORKOUT_STORE_NAME, "readonly");
   const store = tx.objectStore(WORKOUT_STORE_NAME);
 
-  return store.getAll();
+  const workoutLogs = await store.getAll();
+  db.close();
+  return workoutLogs;
 }
 
 // Function to clear all workout logs from the database
