@@ -1,0 +1,44 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.label {
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.input {
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.workoutList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.workoutItem {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.workoutDate {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.workoutDetails {
+  font-style: italic;
+}
