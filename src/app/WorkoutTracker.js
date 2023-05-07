@@ -32,6 +32,12 @@ export default function WorkoutTracker() {
     }));
   };
 
+  const handleLabelClick = (event) => {
+    if (event.target.tagName !== "BUTTON") {
+      event.preventDefault();
+    }
+  };
+
   const handleWeightDecrement = () => {
     setFormValues((prevValues) => ({
       ...prevValues,
@@ -115,7 +121,10 @@ export default function WorkoutTracker() {
             <option value="Overhead Press">Overhead Press</option>
           </select>
         </label>
-        <label className={styles.label}>
+        <label
+          className={styles.label}
+          onClick={(event) => handleLabelClick(event)}
+        >
           Weight (lbs):
           <div className={styles.weightControl}>
             <button
@@ -143,7 +152,10 @@ export default function WorkoutTracker() {
             </button>
           </div>
         </label>
-        <label className={styles.label}>
+        <label
+          className={styles.label}
+          onClick={(event) => handleLabelClick(event)}
+        >
           Reps:
           <div className={styles.repsControl}>
             <button
