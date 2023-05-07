@@ -1,4 +1,4 @@
-import { openDB } from "idb";
+import { openDB, deleteDB } from "idb";
 
 const DB_NAME = "workout_db";
 const DB_VERSION = 1;
@@ -38,10 +38,16 @@ export async function getWorkoutLogs() {
 
 // Function to clear all workout logs from the database
 export async function clearWorkouts() {
-  const db = await openDB(DB_NAME, DB_VERSION);
-  const tx = db.transaction(WORKOUT_STORE_NAME, "readwrite");
-  const store = tx.objectStore(WORKOUT_STORE_NAME);
-
-  store.clear();
-  await tx.done;
+  await deleteDB(DB_NAME, {
+    blocked() {
+      console.error(
+        "Clearing workouts is blocked. Please close other connections to the database."
+      );
+    },
+    blocking() {
+      console.error(
+        "Clearing workouts is blocking. Please close other connections to the database."
+      );
+    },
+  });
 }
