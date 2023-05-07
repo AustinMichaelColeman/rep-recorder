@@ -110,8 +110,8 @@ export default function WorkoutTracker() {
           >
             <option value="">Select Exercise</option>
             <option value="Bench Press">Bench Press</option>
-            <option value="Dumbell Curl">Squat</option>
-            <option value="Leg Press">Deadlift</option>
+            <option value="Dumbell Curl">Dumbell Curl</option>
+            <option value="Leg Press">Leg Press</option>
             <option value="Overhead Press">Overhead Press</option>
           </select>
         </label>
