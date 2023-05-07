@@ -110,8 +110,8 @@ export default function WorkoutTracker() {
           >
             <option value="">Select Exercise</option>
             <option value="Bench Press">Bench Press</option>
-            <option value="Squat">Squat</option>
-            <option value="Deadlift">Deadlift</option>
+            <option value="Dumbell Curl">Squat</option>
+            <option value="Leg Press">Deadlift</option>
             <option value="Overhead Press">Overhead Press</option>
           </select>
         </label>
@@ -132,6 +132,7 @@ export default function WorkoutTracker() {
               onChange={handleInputChange}
               className={styles.input}
               required
+              min="1"
             />
             <button
               type="button"
@@ -159,6 +160,7 @@ export default function WorkoutTracker() {
               onChange={handleInputChange}
               className={styles.input}
               required
+              min="1"
             />
             <button
               type="button"
