@@ -1,8 +1,26 @@
 {
+  "name": "rep-recorder",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "predeploy": "npm run build",
+    "preview": "http-server out",
+    "deploy": "gh-pages -d out"
+  },
+  "dependencies": {
+    "eslint": "8.40.0",
+    "eslint-config-next": "13.4.1",
+    "next": "13.4.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
   "devDependencies": {
+    "gh-pages": "^5.0.0",
     "http-server": "^14.1.1"
   },
-  "scripts": {
-    "start": "http-server"
-  }
+  "homepage": "https://AustinMichaelColeman.github.io/rep-recorder"
 }
