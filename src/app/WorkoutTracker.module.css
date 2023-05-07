@@ -42,3 +42,19 @@
 .workoutDetails {
   font-style: italic;
 }
+
+.weightControl,
+.repsControl {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.incrementButton {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
