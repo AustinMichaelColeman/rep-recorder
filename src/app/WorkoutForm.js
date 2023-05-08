@@ -42,40 +42,6 @@ export default function WorkoutForm({ updateWorkouts }) {
     setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
-  const handleWeightIncrement = () => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      weight: prevValues.weight + 5,
-    }));
-  };
-
-  const handleLabelClick = (event) => {
-    if (event.target.tagName !== "BUTTON") {
-      event.preventDefault();
-    }
-  };
-
-  const handleWeightDecrement = () => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      weight: prevValues.weight - 5,
-    }));
-  };
-
-  const handleRepsIncrement = () => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      reps: prevValues.reps + 1,
-    }));
-  };
-
-  const handleRepsDecrement = () => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      reps: prevValues.reps - 1,
-    }));
-  };
-
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
       <label className={styles.label}>

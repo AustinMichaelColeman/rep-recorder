@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { getWorkoutLogs, clearWorkouts } from "./workout-db";
 import styles from "./WorkoutTracker.module.css";
 import WorkoutForm from "./WorkoutForm";
+import WorkoutList from "./WorkoutList";
 
 export default function WorkoutTracker() {
   const [workouts, setWorkouts] = useState([]);
@@ -34,16 +35,7 @@ export default function WorkoutTracker() {
       <button type="button" onClick={handleClearLogs} className={styles.button}>
         Clear Logs
       </button>
-      <ul className={styles.workoutList}>
-        {workouts.map((workout) => (
-          <li key={workout.id} className={styles.workoutItem}>
-            <span className={styles.workoutDate}>{workout.date}</span>
-            <span className={styles.workoutDetails}>
-              {workout.exercise} - {workout.weight} lbs x {workout.reps}
-            </span>
-          </li>
-        ))}
-      </ul>
+      <WorkoutList workouts={workouts} />
     </div>
   );
 }

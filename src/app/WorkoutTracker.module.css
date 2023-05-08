@@ -21,22 +21,6 @@
   background-color: #d32f2f;
 }
 
-.workoutList {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.workoutItem {
-  display: flex;
-  justify-content: space-between;
-  background-color: #fff;
-  padding: 0.5rem 1rem;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .workoutDate {
   font-weight: bold;
   color: #333;
