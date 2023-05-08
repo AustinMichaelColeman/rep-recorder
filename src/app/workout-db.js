@@ -43,14 +43,7 @@ export async function getWorkoutLogs() {
 export async function clearWorkouts() {
   await deleteDB(DB_NAME, {
     blocked() {
-      console.error(
-        "Clearing workouts is blocked. Please close other connections to the database."
-      );
-    },
-    blocking() {
-      console.error(
-        "Clearing workouts is blocking. Please close other connections to the database."
-      );
+      console.error("Clearing workouts is blocked.");
     },
   });
 }
