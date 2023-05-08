@@ -1,17 +1,11 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { addWorkoutLog, getWorkoutLogs, clearWorkouts } from "./workout-db";
+import { useEffect, useState } from "react";
+import { getWorkoutLogs, clearWorkouts } from "./workout-db";
 import styles from "./WorkoutTracker.module.css";
-import moment from "moment";
+import WorkoutForm from "./WorkoutForm";
 
 export default function WorkoutTracker() {
   const [workouts, setWorkouts] = useState([]);
-  const [formValues, setFormValues] = useState({
-    date: moment().format("YYYY-MM-DD"),
-    exercise: "",
-    weight: 0,
-    reps: 0,
-  });
 
   useEffect(() => {
     getWorkoutLogs()
@@ -20,68 +14,6 @@ export default function WorkoutTracker() {
         console.error("Failed to retrieve workout logs:", error)
       );
   }, []);
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
-  };
-
-  const handleWeightIncrement = () => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      weight: prevValues.weight + 5,
-    }));
-  };
-
-  const handleLabelClick = (event) => {
-    if (event.target.tagName !== "BUTTON") {
-      event.preventDefault();
-    }
-  };
-
-  const handleWeightDecrement = () => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      weight: prevValues.weight - 5,
-    }));
-  };
-
-  const handleRepsIncrement = () => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      reps: prevValues.reps + 1,
-    }));
-  };
-
-  const handleRepsDecrement = () => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      reps: prevValues.reps - 1,
-    }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const workoutLog = {
-      date: formValues.date,
-      exercise: formValues.exercise,
-      weight: parseFloat(formValues.weight),
-      reps: parseInt(formValues.reps),
-    };
-
-    addWorkoutLog(workoutLog)
-      .then(() => {
-        setFormValues((prevValues) => ({
-          ...prevValues,
-        }));
-        getWorkoutLogs()
-          .then((workouts) => setWorkouts(workouts))
-          .catch((error) =>
-            console.error("Failed to retrieve workout logs:", error)
-          );
-      })
-      .catch((error) => console.error("Failed to add workout log:", error));
-  };
 
   const handleClearLogs = () => {
     clearWorkouts()
@@ -92,102 +24,13 @@ export default function WorkoutTracker() {
       .catch((error) => console.error("Failed to clear workout logs:", error));
   };
 
+  const updateWorkouts = (newWorkouts) => {
+    setWorkouts(newWorkouts);
+  };
+
   return (
-    <div>
-      <form onSubmit={handleSubmit} className={styles.form}>
-        <label className={styles.label}>
-          Date:
-          <input
-            type="date"
-            name="date"
-            value={formValues.date}
-            onChange={handleInputChange}
-            className={styles.input}
-            required
-          />
-        </label>
-        <label className={styles.label}>
-          Exercise:
-          <select
-            name="exercise"
-            value={formValues.exercise}
-            onChange={handleInputChange}
-            className={styles.input}
-            required
-          >
-            <option value="">Select Exercise</option>
-            <option value="Bench Press">Bench Press</option>
-            <option value="Dumbell Curl">Dumbell Curl</option>
-            <option value="Leg Press">Leg Press</option>
-            <option value="Overhead Press">Overhead Press</option>
-          </select>
-        </label>
-        <label
-          className={styles.label}
-          onClick={(event) => handleLabelClick(event)}
-        >
-          Weight (lbs):
-          <div className={styles.weightControl}>
-            <button
-              type="button"
-              onClick={handleWeightDecrement}
-              className={styles.incrementButton}
-            >
-              -
-            </button>
-            <input
-              type="number"
-              name="weight"
-              value={formValues.weight}
-              onChange={handleInputChange}
-              className={styles.input}
-              required
-              min="1"
-            />
-            <button
-              type="button"
-              onClick={handleWeightIncrement}
-              className={styles.incrementButton}
-            >
-              +
-            </button>
-          </div>
-        </label>
-        <label
-          className={styles.label}
-          onClick={(event) => handleLabelClick(event)}
-        >
-          Reps:
-          <div className={styles.repsControl}>
-            <button
-              type="button"
-              onClick={handleRepsDecrement}
-              className={styles.incrementButton}
-            >
-              -
-            </button>
-            <input
-              type="number"
-              name="reps"
-              value={formValues.reps}
-              onChange={handleInputChange}
-              className={styles.input}
-              required
-              min="1"
-            />
-            <button
-              type="button"
-              onClick={handleRepsIncrement}
-              className={styles.incrementButton}
-            >
-              +
-            </button>
-          </div>
-        </label>
-        <button type="submit" className={styles.button}>
-          Add Workout Log
-        </button>
-      </form>
+    <div className={styles.container}>
+      <WorkoutForm updateWorkouts={updateWorkouts} />
       <button type="button" onClick={handleClearLogs} className={styles.button}>
         Clear Logs
       </button>
