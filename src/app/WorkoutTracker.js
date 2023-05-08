@@ -2,11 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { addWorkoutLog, getWorkoutLogs, clearWorkouts } from "./workout-db";
 import styles from "./WorkoutTracker.module.css";
+import moment from "moment";
 
 export default function WorkoutTracker() {
   const [workouts, setWorkouts] = useState([]);
   const [formValues, setFormValues] = useState({
-    date: new Date().toISOString().split("T")[0],
+    date: moment().format("YYYY-MM-DD"),
     exercise: "",
     weight: 0,
     reps: 0,
@@ -191,8 +192,8 @@ export default function WorkoutTracker() {
         Clear Logs
       </button>
       <ul className={styles.workoutList}>
-        {workouts.map((workout, index) => (
-          <li key={index} className={styles.workoutItem}>
+        {workouts.map((workout) => (
+          <li key={workout.id} className={styles.workoutItem}>
             <span className={styles.workoutDate}>{workout.date}</span>
             <span className={styles.workoutDetails}>
               {workout.exercise} - {workout.weight} lbs x {workout.reps}
