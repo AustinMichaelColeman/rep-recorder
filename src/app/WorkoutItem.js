@@ -1,4 +1,4 @@
-import styles from "./WorkoutTracker.module.css";
+import styles from "./WorkoutItem.module.css";
 
 export default function WorkoutItem({ workout }) {
   return (
