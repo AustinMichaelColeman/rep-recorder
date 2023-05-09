@@ -40,3 +40,16 @@
   -webkit-appearance: none;
   margin: 0;
 }
+
+@media (prefers-color-scheme: dark) {
+  .input,
+  .incrementButton {
+    background-color: #555;
+    border-color: #999;
+    color: white;
+  }
+
+  .incrementButton:hover {
+    background-color: #444;
+  }
+}

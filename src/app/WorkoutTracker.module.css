@@ -20,3 +20,17 @@
 .button:hover {
   background-color: #d32f2f;
 }
+
+@media (prefers-color-scheme: dark) {
+  .container {
+    color: white;
+  }
+
+  .button {
+    background-color: #800000;
+  }
+
+  .button:hover {
+    background-color: #8b0000;
+  }
+}

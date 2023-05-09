@@ -35,3 +35,26 @@
 .restoreButton:hover {
   background-color: #0e5615;
 }
+
+.restoreButton[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (prefers-color-scheme: dark) {
+  .backupButton {
+    background-color: #800080;
+  }
+
+  .backupButton:hover {
+    background-color: #6a006a;
+  }
+
+  .restoreButton {
+    background-color: #008000;
+  }
+
+  .restoreButton:hover {
+    background-color: #006400;
+  }
+}

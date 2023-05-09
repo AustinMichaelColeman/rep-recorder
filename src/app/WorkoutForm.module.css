@@ -41,3 +41,27 @@
 .button:hover {
   background-color: #45a049;
 }
+
+@media (prefers-color-scheme: dark) {
+  .form {
+    background-color: #333;
+  }
+
+  .label {
+    color: #ccc;
+  }
+
+  .input {
+    background-color: #555;
+    border-color: #999;
+    color: white;
+  }
+
+  .button {
+    background-color: #800000;
+  }
+
+  .button:hover {
+    background-color: #8b0000;
+  }
+}
