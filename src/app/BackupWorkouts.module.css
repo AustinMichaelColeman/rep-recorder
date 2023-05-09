@@ -14,5 +14,24 @@
 }
 
 .backupButton:hover {
-  background-color: #5126dc;
+  background-color: #3c1da3;
+}
+
+.restoreButton {
+  display: inline-block;
+  background-color: #187e22;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 1rem 0;
+  transition: background-color 0.3s;
+}
+
+.restoreButton:hover {
+  background-color: #0e5615;
 }

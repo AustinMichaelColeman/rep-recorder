@@ -151,6 +151,9 @@ export default function BackupWorkouts({ workouts }) {
       <button className={styles.backupButton} onClick={handleBackup}>
         Backup Workouts
       </button>
+      <button className={styles.restoreButton} disabled={true}>
+        Restore Workouts From Backup (not yet implemented)
+      </button>
     </>
   );
 }
