@@ -4,6 +4,7 @@ import { getWorkoutLogs, clearWorkouts } from "./workout-db";
 import styles from "./WorkoutTracker.module.css";
 import WorkoutForm from "./WorkoutForm";
 import WorkoutList from "./WorkoutList";
+import BackupWorkouts from "./BackupWorkouts";
 
 export default function WorkoutTracker() {
   const [workouts, setWorkouts] = useState([]);
@@ -32,6 +33,7 @@ export default function WorkoutTracker() {
   return (
     <div className={styles.container}>
       <WorkoutForm updateWorkouts={updateWorkouts} />
+      <BackupWorkouts workouts={workouts} />
       <button type="button" onClick={handleClearLogs} className={styles.button}>
         Clear Logs
       </button>
