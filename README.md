@@ -1,14 +1,20 @@
 # rep-recorder
 
-You can see it live at https://www.austincoleman.dev/rep-recorder/
+A workout tracking website created with React.js and Next.js.
 
-A workout tracking website. Here are some of the features:
+Deployed using GitHub Pages: https://www.austincoleman.dev/rep-recorder/
 
-- Workout data is stored locally in the browser
-- Workout data can be backed up with Google Drive
+# Features
+
+- Stores workout data in the frontend in IndexedDB
+- Workout data can be backed up with Google Drive API
+
+Coming Soon:
+
 - Workout data can be restored from Google Drive
+- PKCE workflow rather than implicit workflow for Google Drive API
 
-## Getting Started
+## Local Development
 
 First, run the development server:
 
