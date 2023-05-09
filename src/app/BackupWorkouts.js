@@ -123,7 +123,7 @@ export default function BackupWorkouts({ workouts }) {
 
     if (params.has("access_token")) {
       const accessToken = params.get("access_token");
-      window.history.replaceState({}, document.title, "/");
+      window.history.replaceState({}, document.title, "/rep-recorder/");
 
       createFileInDrive(accessToken, workouts);
     } else if (params.has("error")) {
