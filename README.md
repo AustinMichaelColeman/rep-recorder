@@ -1,6 +1,6 @@
 # rep-recorder
 
-A workout tracking website created with React.js and Next.js.
+A workout tracking website created with React.js and Next.js, integrated with Google Drive API.
 
 Deployed using GitHub Pages: https://www.austincoleman.dev/rep-recorder/
 
