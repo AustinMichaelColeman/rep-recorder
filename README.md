@@ -10,6 +10,12 @@ Deployed using GitHub Pages: https://www.austincoleman.dev/rep-recorder/
 - Workout data can be backed up with Google Drive API
 - Workout data can be restored from Google Drive
 
+# Coming soon
+
+- More customizable workout selection
+- Calendar view (month, day)
+- Workout view (eg show only bench press history)
+
 ## Local Development
 
 First, run the development server:
