@@ -41,6 +41,15 @@
   cursor: not-allowed;
 }
 
+.message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 8px;
+  border-radius: 4px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
 @media (prefers-color-scheme: dark) {
   .backupButton {
     background-color: #800080;
@@ -56,5 +65,10 @@
 
   .restoreButton:hover {
     background-color: #006400;
+  }
+
+  .message {
+    background-color: #4f4f4f;
+    color: #ffffff;
   }
 }

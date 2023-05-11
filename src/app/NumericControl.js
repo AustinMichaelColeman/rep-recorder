@@ -37,7 +37,6 @@ export default function NumericControl({ label, value, name, step, onChange }) {
           onChange={(event) => onChange(event)}
           className={styles.input}
           required
-          min="1"
         />
         <button
           type="button"
