@@ -33,7 +33,7 @@ export default function WorkoutTracker() {
   return (
     <div className={styles.container}>
       <WorkoutForm updateWorkouts={updateWorkouts} />
-      <BackupWorkouts workouts={workouts} />
+      <BackupWorkouts workouts={workouts} setWorkouts={setWorkouts} />
       <button type="button" onClick={handleClearLogs} className={styles.button}>
         Clear Logs
       </button>
