@@ -8,11 +8,7 @@ Deployed using GitHub Pages: https://www.austincoleman.dev/rep-recorder/
 
 - Stores workout data in the frontend in IndexedDB
 - Workout data can be backed up with Google Drive API
-
-Coming Soon:
-
 - Workout data can be restored from Google Drive
-- PKCE workflow rather than implicit workflow for Google Drive API
 
 ## Local Development
 
