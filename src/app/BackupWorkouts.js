@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useGoogleDriveAPI } from "./GoogleDriveAPI";
 import styles from "./BackupWorkouts.module.css";
 
@@ -7,6 +7,8 @@ export default function BackupWorkouts({ workouts, setWorkouts }) {
     workouts,
     setWorkouts
   );
+
+  const [isRunningInProduction, setIsRunningInProduction] = useState(false);
 
   const handleBackupClick = useCallback(() => {
     if (workouts.length === 0) {
@@ -27,13 +29,35 @@ export default function BackupWorkouts({ workouts, setWorkouts }) {
     }
   }, [handleRestore]);
 
+  useEffect(() => {
+    if (process.env.NEXT_PUBLIC_CLIENT_ID === undefined) {
+      setIsRunningInProduction(true);
+    } else {
+      setIsRunningInProduction(false);
+    }
+  }, [setIsRunningInProduction]);
+
   return (
     <>
-      <button className={styles.backupButton} onClick={handleBackupClick}>
+      {isRunningInProduction && (
+        <p className={styles.backupMessage}>
+          Backup only works when running locally for now until I implement a
+          backend.
+        </p>
+      )}
+      <button
+        className={styles.backupButton}
+        onClick={handleBackupClick}
+        disabled={isRunningInProduction}
+      >
         Backup Workouts
       </button>
 
-      <button className={styles.restoreButton} onClick={handleRestoreClick}>
+      <button
+        className={styles.restoreButton}
+        onClick={handleRestoreClick}
+        disabled={isRunningInProduction}
+      >
         Restore Workouts From Backup
       </button>
     </>

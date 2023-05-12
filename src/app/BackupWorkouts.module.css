@@ -1,3 +1,8 @@
+.backupMessage {
+  border: 2px solid red;
+  padding: 10px;
+}
+
 .backupButton {
   display: inline-block;
   background-color: #5126dc;
@@ -15,6 +20,11 @@
 
 .backupButton:hover {
   background-color: #3c1da3;
+}
+
+.backupButton[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .restoreButton {

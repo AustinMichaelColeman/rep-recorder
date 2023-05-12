@@ -1,9 +1,12 @@
 import { useEffect, useCallback } from "react";
 import { clearWorkouts, addWorkoutLog, getWorkoutLogs } from "./workout-db";
 
-const CLIENT_ID = process.env.CLIENT_ID;
-const REDIRECT_URI = process.env.REDIRECT_URI;
-const BASE_PATH = new URL(REDIRECT_URI).pathname;
+// Eventually this will be moved once I make a backend.
+// For now I only run this locally.
+const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
+const REDIRECT_URI = process.env.NEXT_PUBLIC_REDIRECT_URI;
+
+const BASE_PATH = REDIRECT_URI ? new URL(REDIRECT_URI).pathname : "";
 const SCOPES = "https://www.googleapis.com/auth/drive.file";
 const FOLDER_NAME = "Rep Recorder Backup";
 
