@@ -12,6 +12,7 @@ Deployed using GitHub Pages: https://www.austincoleman.dev/rep-recorder/
 
 # Coming soon
 
+- A backend to securely manage Google Drive API
 - More customizable workout selection
 - Calendar view (month, day)
 - Workout view (eg show only bench press history)
