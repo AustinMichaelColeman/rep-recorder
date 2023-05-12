@@ -6,8 +6,7 @@ Deployed using GitHub Pages: https://www.austincoleman.dev/rep-recorder/
 
 # Features
 
-- Stores workout data in the frontend in IndexedDB
-
+- Stores workout data
 
 # Coming soon
 
