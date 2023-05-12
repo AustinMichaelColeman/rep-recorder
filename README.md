@@ -7,11 +7,16 @@ Deployed using GitHub Pages: https://www.austincoleman.dev/rep-recorder/
 # Features
 
 - Stores workout data in the frontend in IndexedDB
-- Workout data can be backed up with Google Drive API
-- Workout data can be restored from Google Drive
+
 
 # Coming soon
 
+These are implemented but need a backend to work securely:
+
+- Workout data can be backed up with Google Drive API
+- Workout data can be restored from Google Drive
+
+These features are coming soon:
 - A backend to securely manage Google Drive API
 - More customizable workout selection
 - Calendar view (month, day)
