@@ -265,7 +265,7 @@ export const useGoogleDriveAPI = (workouts, setWorkouts) => {
       SCOPES
     )}&include_granted_scopes=true&response_type=token&redirect_uri=${encodeURIComponent(
       REDIRECT_URI
-    )}&client_id=${encodeURIComponent(CLIENT_ID)}&request='backup'`;
+    )}&client_id=${encodeURIComponent(CLIENT_ID)}`;
 
     sessionStorage.setItem("action", "backup");
     window.location.href = authorizationUrl;
@@ -276,7 +276,7 @@ export const useGoogleDriveAPI = (workouts, setWorkouts) => {
       SCOPES
     )}&include_granted_scopes=true&response_type=token&redirect_uri=${encodeURIComponent(
       REDIRECT_URI
-    )}&client_id=${encodeURIComponent(CLIENT_ID)}&request='restore'`;
+    )}&client_id=${encodeURIComponent(CLIENT_ID)}`;
 
     sessionStorage.setItem("action", "restore");
 
