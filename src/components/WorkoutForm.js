@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NumericControl from "@/components/NumericControl";
 
 import moment from "moment";
@@ -8,10 +8,12 @@ export default function WorkoutForm({
   setWorkouts,
   exerciseOptions,
   setExerciseOptions,
+  selectedExercise,
+  setSelectedExercise,
 }) {
   const [formValues, setFormValues] = useState({
     date: moment().format("YYYY-MM-DD"),
-    exercise: exerciseOptions[0].value,
+    exercise: selectedExercise,
     weight: 0,
     reps: 0,
   });
@@ -52,8 +54,18 @@ export default function WorkoutForm({
     });
   };
 
+  useEffect(() => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      exercise: selectedExercise,
+    }));
+  }, [selectedExercise]);
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
+    if (name === "exercise") {
+      setSelectedExercise(value);
+    }
     setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
@@ -86,7 +98,7 @@ export default function WorkoutForm({
         <select
           id="exercise"
           name="exercise"
-          value={formValues.exercise}
+          value={selectedExercise}
           onChange={handleInputChange}
           required
           className="border rounded p-2"

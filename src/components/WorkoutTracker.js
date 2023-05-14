@@ -16,9 +16,14 @@ export default function WorkoutTracker() {
   );
   const [workouts, setWorkouts] = useState([]);
 
+  const [selectedExercise, setSelectedExercise] = useState(
+    initialExerciseOptions[0].value
+  );
+
   const handleClearWorkouts = async () => {
     setExerciseOptions(initialExerciseOptions);
     setWorkouts([]);
+    setSelectedExercise(initialExerciseOptions[0].value);
   };
 
   return (
@@ -27,6 +32,8 @@ export default function WorkoutTracker() {
         setWorkouts={setWorkouts}
         exerciseOptions={exerciseOptions}
         setExerciseOptions={setExerciseOptions}
+        selectedExercise={selectedExercise}
+        setSelectedExercise={setSelectedExercise}
       />
       <div className="flex justify-center">
         <button
