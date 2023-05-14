@@ -1,4 +1,4 @@
-import styles from "./WorkoutItem.module.css";
+import styles from "@/components/WorkoutItem.module.css";
 
 export default function WorkoutItem({ workout }) {
   return (

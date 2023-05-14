@@ -1,10 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import { getWorkoutLogs, clearWorkouts } from "./workout-db";
-import styles from "./WorkoutTracker.module.css";
-import WorkoutForm from "./WorkoutForm";
-import WorkoutList from "./WorkoutList";
-import BackupWorkouts from "./BackupWorkouts";
+import { getWorkoutLogs, clearWorkouts } from "@/utils/workout-db";
+import styles from "@/components/WorkoutTracker.module.css";
+import WorkoutForm from "@/components/WorkoutForm";
+import WorkoutList from "@/components/WorkoutList";
+import BackupWorkouts from "@/components/BackupWorkouts";
 
 export default function WorkoutTracker() {
   const [exerciseOptions, setExerciseOptions] = useState([

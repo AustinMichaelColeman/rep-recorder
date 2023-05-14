@@ -1,5 +1,9 @@
 import { useEffect, useCallback } from "react";
-import { clearWorkouts, addWorkoutLog, getWorkoutLogs } from "./workout-db";
+import {
+  clearWorkouts,
+  addWorkoutLog,
+  getWorkoutLogs,
+} from "@/utils/workout-db";
 
 // Eventually this will be moved once I make a backend.
 // For now I only run this locally.

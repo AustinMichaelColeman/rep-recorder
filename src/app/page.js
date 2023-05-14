@@ -1,6 +1,6 @@
-import styles from "./page.module.css";
-import WorkoutTracker from "./WorkoutTracker";
-import Footer from "./Footer"
+import styles from "@/app/page.module.css";
+import WorkoutTracker from "@/components/WorkoutTracker";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (

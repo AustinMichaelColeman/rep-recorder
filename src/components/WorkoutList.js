@@ -1,5 +1,5 @@
-import WorkoutItem from "./WorkoutItem";
-import styles from "./WorkoutList.module.css";
+import WorkoutItem from "@/components/WorkoutItem";
+import styles from "@/components/WorkoutList.module.css";
 
 export default function WorkoutList({ workouts }) {
   return (

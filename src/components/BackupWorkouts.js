@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useGoogleDriveAPI } from "./GoogleDriveAPI";
-import styles from "./BackupWorkouts.module.css";
+import { useGoogleDriveAPI } from "@/utils/googleDriveAPI";
+import styles from "@/components/BackupWorkouts.module.css";
 
 export default function BackupWorkouts({ workouts, setWorkouts }) {
   const { handleBackup, handleRestore } = useGoogleDriveAPI(

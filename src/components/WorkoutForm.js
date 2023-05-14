@@ -5,11 +5,11 @@ import {
   getWorkoutLogs,
   addExercise,
   getExercises,
-} from "./workout-db";
-import NumericControl from "./NumericControl";
+} from "@/utils/workout-db";
+import NumericControl from "@/components/NumericControl";
 
 import moment from "moment";
-import styles from "./WorkoutForm.module.css";
+import styles from "@/components/WorkoutForm.module.css";
 
 export default function WorkoutForm({
   updateWorkouts,

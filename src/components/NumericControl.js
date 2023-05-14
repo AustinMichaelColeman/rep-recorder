@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./NumericControl.module.css";
+import styles from "@/components/NumericControl.module.css";
 
 export default function NumericControl({ label, value, name, step, onChange }) {
   const handleLabelClick = (event) => {
