@@ -1,67 +1,44 @@
 "use client";
-import { useEffect, useState } from "react";
-import { getWorkoutLogs, clearWorkouts } from "@/utils/workout-db";
-import styles from "@/components/WorkoutTracker.module.css";
+import { useState } from "react";
 import WorkoutForm from "@/components/WorkoutForm";
 import WorkoutList from "@/components/WorkoutList";
-import BackupWorkouts from "@/components/BackupWorkouts";
+
+const initialExerciseOptions = [
+  { value: "Bench Press", label: "Bench Press" },
+  { value: "Dumbbell Curl", label: "Dumbbell Curl" },
+  { value: "Leg Press", label: "Leg Press" },
+  { value: "Overhead Press", label: "Overhead Press" },
+];
 
 export default function WorkoutTracker() {
-  const [exerciseOptions, setExerciseOptions] = useState([
-    { value: "", label: "Select Exercise" },
-    { value: "Bench Press", label: "Bench Press" },
-    { value: "Dumbbell Curl", label: "Dumbbell Curl" },
-    { value: "Leg Press", label: "Leg Press" },
-    { value: "Overhead Press", label: "Overhead Press" },
-  ]);
+  const [exerciseOptions, setExerciseOptions] = useState(
+    initialExerciseOptions
+  );
   const [workouts, setWorkouts] = useState([]);
 
-  useEffect(() => {
-    getWorkoutLogs()
-      .then((workouts) => setWorkouts(workouts))
-      .catch((error) =>
-        console.error("Failed to retrieve workout logs:", error)
-      );
-  }, []);
-
-  const handleClearLogs = async () => {
-    const confirmation = window.confirm(
-      "Are you sure you want to delete the local data?"
-    );
-
-    if (confirmation) {
-      try {
-        await clearWorkouts();
-        setExerciseOptions([
-          { value: "", label: "Select Exercise" },
-          { value: "Bench Press", label: "Bench Press" },
-          { value: "Dumbbell Curl", label: "Dumbbell Curl" },
-          { value: "Leg Press", label: "Leg Press" },
-          { value: "Overhead Press", label: "Overhead Press" },
-        ]);
-        updateWorkouts([]);
-      } catch (error) {
-        console.error("Failed to clear local database:", error);
-      }
-    }
-  };
-
-  const updateWorkouts = (newWorkouts) => {
-    setWorkouts(newWorkouts);
+  const handleClearWorkouts = async () => {
+    setExerciseOptions(initialExerciseOptions);
+    setWorkouts([]);
   };
 
   return (
-    <div className={styles.container}>
+    <>
       <WorkoutForm
-        updateWorkouts={updateWorkouts}
+        setWorkouts={setWorkouts}
         exerciseOptions={exerciseOptions}
         setExerciseOptions={setExerciseOptions}
       />
-      <BackupWorkouts workouts={workouts} setWorkouts={setWorkouts} />
-      <button type="button" onClick={handleClearLogs} className={styles.button}>
-        Delete local data
-      </button>
+      <div className="flex justify-center">
+        <button
+          type="button"
+          onClick={handleClearWorkouts}
+          className="mt-4 px-4 py-2 bg-light-button-background text-light-button-text dark:bg-dark-button-background dark:text-dark-button-text rounded "
+        >
+          Clear Workouts
+        </button>
+      </div>
+
       <WorkoutList workouts={workouts} />
-    </div>
+    </>
   );
 }

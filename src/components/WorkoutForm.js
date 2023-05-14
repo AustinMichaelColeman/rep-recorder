@@ -1,98 +1,55 @@
 "use client";
-import { useState, useEffect } from "react";
-import {
-  addWorkoutLog,
-  getWorkoutLogs,
-  addExercise,
-  getExercises,
-} from "@/utils/workout-db";
+import { useState } from "react";
 import NumericControl from "@/components/NumericControl";
 
 import moment from "moment";
-import styles from "@/components/WorkoutForm.module.css";
 
 export default function WorkoutForm({
-  updateWorkouts,
+  setWorkouts,
   exerciseOptions,
   setExerciseOptions,
 }) {
   const [formValues, setFormValues] = useState({
     date: moment().format("YYYY-MM-DD"),
-    exercise: "",
+    exercise: exerciseOptions[0].value,
     weight: 0,
     reps: 0,
   });
+
+  const [workoutId, setworkoutId] = useState(0);
 
   const handleAddExercise = async () => {
     const exerciseName = prompt("Enter the exercise name:");
 
     if (exerciseName) {
       const newExercise = { value: exerciseName, label: exerciseName };
-      try {
-        await addExercise(newExercise);
-        setExerciseOptions((prevOptions) => [...prevOptions, newExercise]);
-        setFormValues((prevValues) => ({
-          ...prevValues,
-          exercise: exerciseName,
-        }));
-      } catch (error) {
-        console.error("Failed to add exercise:", error);
-      }
+
+      setExerciseOptions((prevOptions) => [...prevOptions, newExercise]);
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        exercise: exerciseName,
+      }));
     }
   };
-
-  useEffect(() => {
-    const loadExercises = async () => {
-      try {
-        const exercises = await getExercises();
-
-        if (exercises && exercises.length > 0) {
-          setExerciseOptions(exercises);
-        } else {
-          // Load default exercises if there are no existing exercises in the database
-          const defaultExercises = [
-            { value: "", label: "Select Exercise" },
-            { value: "Bench Press", label: "Bench Press" },
-            { value: "Dumbbell Curl", label: "Dumbbell Curl" },
-            { value: "Leg Press", label: "Leg Press" },
-            { value: "Overhead Press", label: "Overhead Press" },
-          ];
-
-          setExerciseOptions(defaultExercises);
-
-          for (const exercise of defaultExercises) {
-            await addExercise(exercise);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to retrieve exercises:", error);
-      }
-    };
-
-    loadExercises();
-  }, [setExerciseOptions]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const workoutLog = {
+      id: workoutId,
       date: formValues.date,
       exercise: formValues.exercise,
       weight: parseFloat(formValues.weight),
       reps: parseInt(formValues.reps),
     };
 
-    addWorkoutLog(workoutLog)
-      .then(() => {
-        setFormValues((prevValues) => ({
-          ...prevValues,
-        }));
-        getWorkoutLogs()
-          .then((workouts) => updateWorkouts(workouts))
-          .catch((error) =>
-            console.error("Failed to retrieve workout logs:", error)
-          );
-      })
-      .catch((error) => console.error("Failed to add workout log:", error));
+    setworkoutId(workoutId + 1);
+
+    setFormValues((prevValues) => ({
+      ...prevValues,
+    }));
+    setWorkouts((prevWorkouts) => {
+      return [...prevWorkouts, workoutLog];
+    });
   };
 
   const handleInputChange = (event) => {
@@ -101,26 +58,38 @@ export default function WorkoutForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={styles.form}>
-      <label className={styles.label}>
-        Date:
+    <form onSubmit={handleSubmit} className="flex flex-col items-center">
+      <div className="mb-4">
+        <label
+          htmlFor="date"
+          className="mr-2 text-lg text-light-label dark:text-dark-label"
+        >
+          Date
+        </label>
         <input
           type="date"
+          id="date"
           name="date"
           value={formValues.date}
           onChange={handleInputChange}
-          className={styles.input}
           required
+          className="border rounded p-2"
         />
-      </label>
-      <label className={styles.label}>
-        Exercise:
+      </div>
+      <div className="mb-4">
+        <label
+          htmlFor="exercise"
+          className="mr-2 text-lg text-light-label dark:text-dark-label"
+        >
+          Exercise
+        </label>
         <select
+          id="exercise"
           name="exercise"
           value={formValues.exercise}
           onChange={handleInputChange}
-          className={styles.input}
           required
+          className="border rounded p-2"
         >
           {exerciseOptions.map((option) => (
             <option key={option.value} value={option.value}>
@@ -131,26 +100,37 @@ export default function WorkoutForm({
         <button
           type="button"
           onClick={handleAddExercise}
-          className={styles.addButton}
+          className="bg-light-button-background text-light-button-text dark:bg-dark-button-background dark:text-dark-button-text rounded px-4 py-2 ml-2"
         >
           Add Exercise
         </button>
-      </label>
-      <NumericControl
-        label="Weight (lbs)"
-        value={formValues.weight}
-        name="weight"
-        step={5}
-        onChange={handleInputChange}
-      />
-      <NumericControl
-        label="Reps"
-        value={formValues.reps}
-        name="reps"
-        step={1}
-        onChange={handleInputChange}
-      />
-      <button type="submit" className={styles.button}>
+      </div>
+      <div className="mb-4">
+        <NumericControl
+          value={formValues.weight}
+          label="Weight (lbs)"
+          id="weight"
+          name="weight"
+          step={5}
+          onChange={handleInputChange}
+          className="border rounded p-2"
+        />
+      </div>
+      <div className="mb-4">
+        <NumericControl
+          value={formValues.reps}
+          label="Reps"
+          id="reps"
+          name="reps"
+          step={1}
+          onChange={handleInputChange}
+          className="border rounded p-2"
+        />
+      </div>
+      <button
+        type="submit"
+        className="bg-light-button-background text-light-button-text dark:bg-dark-button-background dark:text-dark-button-text rounded px-4 py-2"
+      >
         Add Workout Log
       </button>
     </form>

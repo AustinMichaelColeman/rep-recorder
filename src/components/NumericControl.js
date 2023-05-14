@@ -1,51 +1,45 @@
 import React from "react";
-import styles from "@/components/NumericControl.module.css";
 
 export default function NumericControl({ label, value, name, step, onChange }) {
-  const handleLabelClick = (event) => {
-    if (event.target.tagName !== "BUTTON") {
-      event.preventDefault();
-    }
-  };
-
   const handleIncrement = () => {
     onChange({ target: { name, value: value + step } });
   };
 
   const handleDecrement = () => {
-    onChange({ target: { name, value: value - step } });
+    onChange({ target: { name, value: value - step < 0 ? 0 : value - step } });
   };
 
   return (
-    <label
-      className={styles.label}
-      onClick={(event) => handleLabelClick(event)}
-    >
-      {label}:
-      <div className={styles.inputControl}>
-        <button
-          type="button"
-          onClick={handleDecrement}
-          className={styles.incrementButton}
-        >
-          -
-        </button>
-        <input
-          type="number"
-          name={name}
-          value={value}
-          onChange={(event) => onChange(event)}
-          className={styles.input}
-          required
-        />
-        <button
-          type="button"
-          onClick={handleIncrement}
-          className={styles.incrementButton}
-        >
-          +
-        </button>
-      </div>
-    </label>
+    <div>
+      <label
+        htmlFor={value}
+        className="mr-2 text-light-heading dark:text-dark-heading"
+      >
+        {label}
+      </label>
+      <button
+        type="button"
+        onClick={handleDecrement}
+        className="w-10 h-10 bg-red-500 text-white dark:bg-red-600 dark:text-white"
+      >
+        -
+      </button>
+      <input
+        type="number"
+        id={name}
+        name={name}
+        value={value}
+        onChange={(event) => onChange(event)}
+        required
+        className="py-2  text-center"
+      />
+      <button
+        type="button"
+        onClick={handleIncrement}
+        className="w-10 h-10 bg-green-500 text-white dark:bg-green-600 dark:text-white"
+      >
+        +
+      </button>
+    </div>
   );
 }

@@ -4,23 +4,6 @@ A workout tracking website created with React.js and Next.js, integrated with Go
 
 Deployed using GitHub Pages: https://www.austincoleman.dev/rep-recorder/
 
-# Features
-
-- Stores workout data
-
-# Coming soon
-
-These are implemented but need a backend to work securely:
-
-- Workout data can be backed up with Google Drive API
-- Workout data can be restored from Google Drive
-
-These features are coming soon:
-- A backend to securely manage Google Drive API
-- More customizable workout selection
-- Calendar view (month, day)
-- Workout view (eg show only bench press history)
-
 ## Local Development
 
 First, run the development server:

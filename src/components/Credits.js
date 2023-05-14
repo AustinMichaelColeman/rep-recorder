@@ -1,13 +1,12 @@
-import styles from "@/components/Footer.module.css";
-export default function Footer() {
+export default function Credits() {
   return (
-    <p>
+    <p className="text-2xl font-medium text-light-heading dark:text-dark-heading text-center">
       Check out the code on{" "}
       <a
-        className={styles.footerLink}
         href="https://github.com/AustinMichaelColeman/rep-recorder"
         target="_blank"
         rel="noopener noreferrer"
+        className="text-green-700 dark:text-green-400 underline hover:no-underline"
       >
         GitHub
       </a>
