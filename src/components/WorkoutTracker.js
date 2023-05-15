@@ -27,7 +27,7 @@ export default function WorkoutTracker() {
   };
 
   return (
-    <>
+    <div>
       <WorkoutForm
         setWorkouts={setWorkouts}
         exerciseOptions={exerciseOptions}
@@ -46,6 +46,6 @@ export default function WorkoutTracker() {
       </div>
 
       <WorkoutList workouts={workouts} />
-    </>
+    </div>
   );
 }

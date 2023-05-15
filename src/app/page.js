@@ -12,7 +12,7 @@ export default function Home() {
         A workout tracking website
       </h2>
       <Credits />
-      <WorkoutTracker className="flex-grow" />
+      <WorkoutTracker />
     </main>
   );
 }
