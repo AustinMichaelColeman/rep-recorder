@@ -3,6 +3,7 @@ export default function Credits() {
     <p className="text-2xl font-medium text-light-heading dark:text-dark-heading text-center">
       Check out the code on{" "}
       <a
+        title="GitHub code repository for Rep Recorder"
         href="https://github.com/AustinMichaelColeman/rep-recorder"
         target="_blank"
         rel="noopener noreferrer"
