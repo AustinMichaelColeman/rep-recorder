@@ -1,12 +1,16 @@
 export default function WorkoutItem({ workout }) {
   return (
-    <li className="flex justify-between items-center py-2 space-x-4 border-b border-gray-300 dark:border-gray-700">
-      <span className="text-light-heading dark:text-dark-heading">
-        {workout.date}
-      </span>
-      <span className="text-light-label dark:text-dark-label">
-        {workout.exercise} - {workout.weight} lbs x {workout.reps}
-      </span>
-    </li>
+    <tr
+      className="
+      font-semibold
+      text-center text-gray-900 dark:text-gray-100
+      border-b border-gray-300 dark:border-gray-700
+      bg-blue-50 even:bg-blue-100 dark:bg-blue-950 dark:even:bg-blue-900"
+    >
+      <td className="py-4 px-4">{workout.date}</td>
+      <td className="py-4 px-4">{workout.exercise}</td>
+      <td className="py-4 px-4">{workout.weight}</td>
+      <td className="py-4 px-4">{workout.reps}</td>
+    </tr>
   );
 }

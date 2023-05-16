@@ -4,6 +4,7 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      backgroundColor: ["even"],
       colors: {
         light: {
           heading: "#000000",

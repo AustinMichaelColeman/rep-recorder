@@ -31,6 +31,7 @@ export default function WorkoutForm({
         ...prevValues,
         exercise: exerciseName,
       }));
+      setSelectedExercise(newExercise.label);
     }
   };
 

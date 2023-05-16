@@ -10,6 +10,8 @@ const initialExerciseOptions = [
   { value: "Overhead Press", label: "Overhead Press" },
 ];
 
+const workoutColumns = ["Date", "Exercise", "Weight (lbs)", "Reps"];
+
 export default function WorkoutTracker() {
   const [exerciseOptions, setExerciseOptions] = useState(
     initialExerciseOptions
@@ -45,7 +47,7 @@ export default function WorkoutTracker() {
         </button>
       </div>
 
-      <WorkoutList workouts={workouts} />
+      <WorkoutList columns={workoutColumns} workouts={workouts} />
     </div>
   );
 }
