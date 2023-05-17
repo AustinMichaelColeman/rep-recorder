@@ -1,6 +1,6 @@
 # rep-recorder
 
-A workout tracking website created with React.js, Next.js, and tailwindcss.
+A workout tracking website created with React.js, Next.js, and Tailwind CSS.
 
 Deployed using GitHub Pages: https://www.austincoleman.dev/rep-recorder/
 
