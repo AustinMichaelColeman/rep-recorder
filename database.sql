@@ -18,8 +18,8 @@ CREATE TABLE Users (
     UserID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     Username VARCHAR(255) NOT NULL,
     PasswordHash VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP
+    created_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null,
+    updated_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null
 );
 
 -- TemplateCategories are associated with ExerciseTemplates
@@ -28,8 +28,8 @@ CREATE TABLE TemplateCategories (
     TemplateCategoriesID SERIAL PRIMARY KEY,
     CategoryName VARCHAR(255) NOT NULL, -- (eg 'Cardio', 'Bicep', 'Back')
     UserID UUID REFERENCES Users(UserID),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP
+    created_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null,
+    updated_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null
 );
 
 -- ExerciseTemplates are the specific types of exercises a user can perform
@@ -40,8 +40,8 @@ CREATE TABLE ExerciseTemplates (
     CategoryID INT REFERENCES TemplateCategories(TemplateCategoriesID), -- (eg 'Cardio', 'Bicep', 'Back')
     UserID UUID REFERENCES Users(UserID),
     Notes TEXT, -- (eg 'Treadmill on the left side of gym', 'Free weight Dumbbell Curls')
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP
+    created_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null,
+    updated_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null
 );
 
 -- TrainingSessionExercises represent the exercises 
@@ -55,8 +55,8 @@ CREATE TABLE TrainingSessionExercises (
     ExerciseTemplateID UUID REFERENCES ExerciseTemplates(ExerciseTemplateID), -- (eg 'Treadmill', 'Dumbbell Curl', 'Deadlift')
     WorkoutDate DATE NOT NULL, -- intended to be a day (eg 5-16-2023)
     ExerciseNotes TEXT, -- (eg 'Mostly an upper body day, back was tight today but exercise helped')
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP
+    created_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null,
+    updated_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null
 );
 
 -- ExerciseLogs stores logs of individual exercises performed during
@@ -72,8 +72,8 @@ CREATE TABLE ExerciseLogs (
     CaloriesBurned DECIMAL(5,2),
     Level INT,
     Notes TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP
+    created_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null,
+    updated_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null
 );
 
 --------------------------------------------------------------------------------
