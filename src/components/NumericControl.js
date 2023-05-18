@@ -12,7 +12,7 @@ export default function NumericControl({ label, value, name, step, onChange }) {
   return (
     <>
       <label
-        htmlFor={value}
+        htmlFor={name}
         className="block mr-2 text-light-heading dark:text-dark-heading"
       >
         {label}
