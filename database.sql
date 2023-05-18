@@ -16,8 +16,7 @@ CREATE DATABASE workout_tracker;
 -- Create the Users table
 CREATE TABLE Users (
     UserID UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    Username VARCHAR(255) NOT NULL,
-    PasswordHash VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
     created_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null,
     updated_at TIMESTAMP with time zone default timezone('utc'::text, now()) not null
 );
@@ -121,20 +120,20 @@ EXECUTE FUNCTION update_modified_column();
 -- Example Creation Queries
 
 -- Create a new user
-INSERT INTO Users (Username, PasswordHash)
-VALUES ('john_doe', 'hashed_password');
+INSERT INTO Users (Email)
+VALUES ('Email@example.com');
 
 -- Create a new template category for the user
 INSERT INTO TemplateCategories (CategoryName, UserID)
-VALUES ('Cardio', (SELECT UserID FROM Users WHERE Username = 'john_doe'));
+VALUES ('Cardio', (SELECT UserID FROM Users WHERE Email = 'email@example.com'));
 
 -- Create a new exercise template for the user
 INSERT INTO ExerciseTemplates (ExerciseName, CategoryID, UserID, Notes)
-VALUES ('Treadmill', (SELECT TemplateCategoriesID FROM TemplateCategories WHERE CategoryName = 'Cardio' AND UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe')), (SELECT UserID FROM Users WHERE Username = 'john_doe'), 'Treadmill on the left side of gym');
+VALUES ('Treadmill', (SELECT TemplateCategoriesID FROM TemplateCategories WHERE CategoryName = 'Cardio' AND UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com')), (SELECT UserID FROM Users WHERE Email = 'email@example.com'), 'Treadmill on the left side of gym');
 
 -- Create a new training session exercise for the user
 INSERT INTO TrainingSessionExercises (UserID, ExerciseTemplateID, WorkoutDate, ExerciseNotes)
-VALUES ((SELECT UserID FROM Users WHERE Username = 'john_doe'), (SELECT ExerciseTemplateID FROM ExerciseTemplates WHERE ExerciseName = 'Treadmill' AND UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe')), '2023-05-16', 'Mostly an upper body day, back was tight today but exercise helped');
+VALUES ((SELECT UserID FROM Users WHERE Email = 'email@example.com'), (SELECT ExerciseTemplateID FROM ExerciseTemplates WHERE ExerciseName = 'Treadmill' AND UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com')), '2023-05-16', 'Mostly an upper body day, back was tight today but exercise helped');
 
 -- Insert exercise logs
 INSERT INTO ExerciseLogs (
@@ -149,10 +148,10 @@ INSERT INTO ExerciseLogs (
     Notes
 )
 VALUES (
-    (SELECT UserID FROM Users WHERE Username = 'john_doe'), -- UserID
+    (SELECT UserID FROM Users WHERE Email = 'email@example.com'), -- UserID
     (SELECT TrainingSessionExerciseID
      FROM TrainingSessionExercises
-     WHERE UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe')
+     WHERE UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com')
        AND ExerciseTemplateID = (SELECT ExerciseTemplateID FROM ExerciseTemplates WHERE ExerciseName = 'Treadmill')), -- TrainingSessionExerciseID
     NULL, -- Weight
     NULL, -- Reps
@@ -168,18 +167,18 @@ VALUES (
 -- Users Table:
 
 -- Read user information
-SELECT UserID, Username, PasswordHash
+SELECT UserID, Email
 FROM Users
-WHERE UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe');
+WHERE UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com');
 
 -- Update user information
 UPDATE Users
-SET Username = 'johndoe'
-WHERE UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe');
+SET Email = 'johndoe'
+WHERE UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com');
 
 -- Delete a user
 DELETE FROM Users
-WHERE UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe');
+WHERE UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com');
 
 ----------------------------------------------------
 
@@ -188,16 +187,16 @@ WHERE UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe');
 -- Read template category information
 SELECT TemplateCategoriesID, CategoryName
 FROM TemplateCategories
-WHERE UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe');
+WHERE UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com');
 
 -- Update template category information
 UPDATE TemplateCategories
 SET CategoryName = 'Cardiovascular'
-WHERE TemplateCategoriesID = (SELECT TemplateCategoriesID FROM TemplateCategories WHERE CategoryName = 'Cardio' AND UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe'));
+WHERE TemplateCategoriesID = (SELECT TemplateCategoriesID FROM TemplateCategories WHERE CategoryName = 'Cardio' AND UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com'));
 
 -- Delete a template category
 DELETE FROM TemplateCategories
-WHERE TemplateCategoriesID = (SELECT TemplateCategoriesID FROM TemplateCategories WHERE CategoryName = 'Cardiovascular' AND UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe'));
+WHERE TemplateCategoriesID = (SELECT TemplateCategoriesID FROM TemplateCategories WHERE CategoryName = 'Cardiovascular' AND UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com'));
 
 ----------------------------------------------------
 
@@ -206,16 +205,16 @@ WHERE TemplateCategoriesID = (SELECT TemplateCategoriesID FROM TemplateCategorie
 -- Read exercise template information
 SELECT ExerciseTemplateID, ExerciseName, CategoryID, UserID, Notes
 FROM ExerciseTemplates
-WHERE UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe');
+WHERE UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com');
 
 -- Update exercise template information
 UPDATE ExerciseTemplates
 SET ExerciseName = 'Treadmill Workout', Notes = 'New treadmill notes'
-WHERE ExerciseTemplateID = (SELECT ExerciseTemplateID FROM ExerciseTemplates WHERE ExerciseName = 'Treadmill' AND UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe'));
+WHERE ExerciseTemplateID = (SELECT ExerciseTemplateID FROM ExerciseTemplates WHERE ExerciseName = 'Treadmill' AND UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com'));
 
 -- Delete an exercise template
 DELETE FROM ExerciseTemplates
-WHERE ExerciseTemplateID = (SELECT ExerciseTemplateID FROM ExerciseTemplates WHERE ExerciseName = 'Treadmill Workout' AND UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe'));
+WHERE ExerciseTemplateID = (SELECT ExerciseTemplateID FROM ExerciseTemplates WHERE ExerciseName = 'Treadmill Workout' AND UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com'));
 
 ----------------------------------------------------
 
@@ -224,16 +223,16 @@ WHERE ExerciseTemplateID = (SELECT ExerciseTemplateID FROM ExerciseTemplates WHE
 -- Read training session exercise information
 SELECT TrainingSessionExerciseID, UserID, ExerciseTemplateID, WorkoutDate, ExerciseNotes
 FROM TrainingSessionExercises
-WHERE UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe');
+WHERE UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com');
 
 -- Update training session exercise information
 UPDATE TrainingSessionExercises
 SET ExerciseNotes = 'Focused on legs today'
-WHERE TrainingSessionExerciseID = (SELECT TrainingSessionExerciseID FROM TrainingSessionExercises WHERE ExerciseNotes = 'Mostly an upper body day, back was tight today but exercise helped' AND UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe'));
+WHERE TrainingSessionExerciseID = (SELECT TrainingSessionExerciseID FROM TrainingSessionExercises WHERE ExerciseNotes = 'Mostly an upper body day, back was tight today but exercise helped' AND UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com'));
 
 -- Delete a training session exercise
 DELETE FROM TrainingSessionExercises
-WHERE TrainingSessionExerciseID = (SELECT TrainingSessionExerciseID FROM TrainingSessionExercises WHERE ExerciseNotes = 'Focused on legs today' AND UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe'));
+WHERE TrainingSessionExerciseID = (SELECT TrainingSessionExerciseID FROM TrainingSessionExercises WHERE ExerciseNotes = 'Focused on legs today' AND UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com'));
 
 ----------------------------------------------------
 
@@ -242,14 +241,14 @@ WHERE TrainingSessionExerciseID = (SELECT TrainingSessionExerciseID FROM Trainin
 -- Read exercise log information
 SELECT LogID, UserID, TrainingSessionExerciseID, Weight, Reps, Duration, Distance, CaloriesBurned, Level, Notes
 FROM ExerciseLogs
-WHERE UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe');
+WHERE UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com');
 
 -- Update exercise log information
 UPDATE ExerciseLogs
 SET Reps = 15, Duration = INTERVAL '1 hour', CaloriesBurned = 600.0, Level = 4, Notes = 'Increased intensity'
-WHERE LogID = (SELECT LogID FROM ExerciseLogs WHERE UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe') LIMIT 1);
+WHERE LogID = (SELECT LogID FROM ExerciseLogs WHERE UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com') LIMIT 1);
 
 -- Delete an exercise log
 DELETE FROM ExerciseLogs
-WHERE LogID = (SELECT LogID FROM ExerciseLogs WHERE UserID = (SELECT UserID FROM Users WHERE Username = 'john_doe') LIMIT 1);
+WHERE LogID = (SELECT LogID FROM ExerciseLogs WHERE UserID = (SELECT UserID FROM Users WHERE Email = 'email@example.com') LIMIT 1);
 
