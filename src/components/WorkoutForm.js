@@ -80,6 +80,7 @@ export default function WorkoutForm({ setWorkouts }) {
         exerciseOptions={exerciseOptions}
         handleExerciseSelectChange={handleExerciseSelectChange}
         handleAddExercise={handleAddExercise}
+        name="exercise"
       />
       <NumericControl
         value={formValues.weight}
