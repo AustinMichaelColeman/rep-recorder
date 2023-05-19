@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import NumericControl from "@/components/NumericControl";
 import DateInput from "@/components/DateInput";
+import ExerciseInput from "@/components/ExerciseInput";
 import moment from "moment";
 
 export default function WorkoutForm({
@@ -73,35 +74,12 @@ export default function WorkoutForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col items-center">
       <DateInput value={formValues.date} onChange={handleInputChange} />
-      <div className="mb-4">
-        <label
-          htmlFor="exercise"
-          className="mr-2 text-lg text-light-label dark:text-dark-label"
-        >
-          Exercise
-        </label>
-        <select
-          id="exercise"
-          name="exercise"
-          value={selectedExercise}
-          onChange={handleInputChange}
-          required
-          className="border rounded p-2"
-        >
-          {exerciseOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <button
-          type="button"
-          onClick={handleAddExercise}
-          className="bg-light-button-background text-light-button-text dark:bg-dark-button-background dark:text-dark-button-text rounded px-4 py-2 ml-2"
-        >
-          Add Exercise
-        </button>
-      </div>
+      <ExerciseInput
+        selectedExercise={selectedExercise}
+        exerciseOptions={exerciseOptions}
+        handleInputChange={handleInputChange}
+        handleAddExercise={handleAddExercise}
+      />
       <div className="mb-4">
         <NumericControl
           value={formValues.weight}
