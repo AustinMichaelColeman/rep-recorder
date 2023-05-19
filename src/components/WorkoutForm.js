@@ -69,7 +69,12 @@ export default function WorkoutForm({ setWorkouts }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col items-center">
+    <form
+      id="workoutForm"
+      name="workoutForm"
+      onSubmit={handleSubmit}
+      className="flex flex-col items-center"
+    >
       <DateInput
         value={formValues.date}
         onChange={handleInputChange}
