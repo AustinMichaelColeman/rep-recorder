@@ -10,7 +10,7 @@ export default function NumericControl({ label, value, name, step, onChange }) {
   };
 
   return (
-    <>
+    <div className="mb-4">
       <label
         htmlFor={name}
         className="block mr-2 text-light-heading dark:text-dark-heading"
@@ -42,6 +42,6 @@ export default function NumericControl({ label, value, name, step, onChange }) {
           +
         </button>
       </div>
-    </>
+    </div>
   );
 }

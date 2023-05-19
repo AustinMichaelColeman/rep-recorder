@@ -83,28 +83,24 @@ export default function WorkoutForm({
         handleExerciseChange={handleExerciseChange}
         handleAddExercise={handleAddExercise}
       />
-      <div className="mb-4">
-        <NumericControl
-          value={formValues.weight}
-          label="Weight (lbs)"
-          id="weight"
-          name="weight"
-          step={5}
-          onChange={handleInputChange}
-          className="border rounded p-2"
-        />
-      </div>
-      <div className="mb-4">
-        <NumericControl
-          value={formValues.reps}
-          label="Reps"
-          id="reps"
-          name="reps"
-          step={1}
-          onChange={handleInputChange}
-          className="border rounded p-2"
-        />
-      </div>
+      <NumericControl
+        value={formValues.weight}
+        label="Weight (lbs)"
+        id="weight"
+        name="weight"
+        step={5}
+        onChange={handleInputChange}
+        className="border rounded p-2"
+      />
+      <NumericControl
+        value={formValues.reps}
+        label="Reps"
+        id="reps"
+        name="reps"
+        step={1}
+        onChange={handleInputChange}
+        className="border rounded p-2"
+      />
       <button
         type="submit"
         className="bg-light-button-background text-light-button-text dark:bg-dark-button-background dark:text-dark-button-text rounded px-4 py-2"
