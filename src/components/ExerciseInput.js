@@ -5,18 +5,19 @@ export default function ExerciseInput({
   exerciseOptions,
   handleExerciseSelectChange,
   handleAddExercise,
+  name,
 }) {
   return (
     <div className="mb-4">
       <label
-        htmlFor="exercise"
+        htmlFor={name}
         className="mr-2 text-lg text-light-label dark:text-dark-label"
       >
         Exercise
       </label>
       <select
-        id="exercise"
-        name="exercise"
+        id={name}
+        name={name}
         value={selectedExercise}
         onChange={handleExerciseSelectChange}
         required

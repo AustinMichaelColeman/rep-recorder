@@ -16,61 +16,25 @@ export default function WorkoutForm({ setWorkouts }) {
   const [exerciseOptions, setExerciseOptions] = useState(
     initialExerciseOptions
   );
-
-  const [selectedExercise, setSelectedExercise] = useState(
-    initialExerciseOptions[0].value
-  );
-
   const [formValues, setFormValues] = useState({
     date: moment().format("YYYY-MM-DD"),
-    exercise: selectedExercise,
+    exercise: initialExerciseOptions[0].value,
     weight: 0,
     reps: 0,
   });
-
   const [workoutId, setworkoutId] = useState(0);
 
   const handleAddExercise = () => {
     const exerciseName = prompt("Enter the exercise name:");
+    if (!exerciseName) return;
 
-    if (exerciseName) {
-      const newExercise = { value: exerciseName, label: exerciseName };
-
-      setExerciseOptions((prevOptions) => [...prevOptions, newExercise]);
-      setFormValues((prevValues) => ({
-        ...prevValues,
-        exercise: exerciseName,
-      }));
-      setSelectedExercise(newExercise.label);
-    }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const workoutLog = {
-      id: workoutId,
-      date: formValues.date,
-      exercise: formValues.exercise,
-      weight: parseFloat(formValues.weight),
-      reps: parseInt(formValues.reps),
-    };
-
-    setworkoutId(workoutId + 1);
-
+    const newExercise = { value: exerciseName, label: exerciseName };
+    setExerciseOptions((prevOptions) => [...prevOptions, newExercise]);
     setFormValues((prevValues) => ({
       ...prevValues,
+      exercise: exerciseName,
     }));
-    setWorkouts((prevWorkouts) => {
-      return [...prevWorkouts, workoutLog];
-    });
   };
-
-  useEffect(() => {
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      exercise: selectedExercise,
-    }));
-  }, [selectedExercise]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -79,21 +43,40 @@ export default function WorkoutForm({ setWorkouts }) {
 
   const handleExerciseSelectChange = (event) => {
     const exercise = event.target.value;
-    setSelectedExercise(exercise);
-    setFormValues((prevValues) => ({ ...prevValues, exercise: exercise }));
+    setFormValues((prevValues) => ({ ...prevValues, exercise }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const workoutLog = {
+      id: workoutId,
+      ...formValues,
+      weight: parseFloat(formValues.weight),
+      reps: parseInt(formValues.reps),
+    };
+
+    setworkoutId(workoutId + 1);
+    setWorkouts((prevWorkouts) => [...prevWorkouts, workoutLog]);
   };
 
   const handleClearWorkouts = async () => {
     setExerciseOptions(initialExerciseOptions);
     setWorkouts([]);
-    setSelectedExercise(initialExerciseOptions[0].value);
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      exercise: initialExerciseOptions[0].value,
+    }));
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col items-center">
-      <DateInput value={formValues.date} onChange={handleInputChange} />
+      <DateInput
+        value={formValues.date}
+        onChange={handleInputChange}
+        name="date"
+      />
       <ExerciseInput
-        selectedExercise={selectedExercise}
+        selectedExercise={formValues.exercise}
         exerciseOptions={exerciseOptions}
         handleExerciseSelectChange={handleExerciseSelectChange}
         handleAddExercise={handleAddExercise}
