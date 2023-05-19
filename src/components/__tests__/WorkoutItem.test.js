@@ -4,7 +4,7 @@ import "@testing-library/jest-dom";
 
 describe("WorkoutItem", () => {
   const testWorkout = {
-    id: 1,
+    id: 0,
     date: "2023-05-20",
     exercise: "Bench Press",
     weight: 50,
@@ -12,7 +12,13 @@ describe("WorkoutItem", () => {
   };
 
   it("renders the workout item correctly", () => {
-    render(<WorkoutItem workout={testWorkout} />);
+    render(
+      <table>
+        <tbody>
+          <WorkoutItem workout={testWorkout} />
+        </tbody>
+      </table>
+    );
 
     expect(screen.getByText(/2023-05-20/i)).toBeInTheDocument();
     expect(screen.getByText(/Bench Press/i)).toBeInTheDocument();
