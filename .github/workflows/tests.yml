@@ -1,4 +1,4 @@
-name: Node.js tests runner
+name: Jest tests
 
 on:
   push:
