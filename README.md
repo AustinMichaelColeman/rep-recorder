@@ -6,8 +6,7 @@ Also uses Jest for testing.
 
 Deployed using Vercel: https://www.RepRecorder.dev/
 
-Status:
-Jest Tests: ![Tests](https://github.com/AustinMichaelColeman/rep-recorder/actions/workflows/tests.yml/badge.svg)
+![Tests](https://github.com/AustinMichaelColeman/rep-recorder/actions/workflows/tests.yml/badge.svg)
 
 ## Local Development
 
