@@ -65,10 +65,13 @@ export default function WorkoutForm({
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    if (name === "exercise") {
-      setSelectedExercise(value);
-    }
     setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
+  };
+
+  const handleExerciseChange = (event) => {
+    const { value } = event.target;
+    setSelectedExercise(value);
+    setFormValues((prevValues) => ({ ...prevValues, exercise: value }));
   };
 
   return (
@@ -77,7 +80,7 @@ export default function WorkoutForm({
       <ExerciseInput
         selectedExercise={selectedExercise}
         exerciseOptions={exerciseOptions}
-        handleInputChange={handleInputChange}
+        handleExerciseChange={handleExerciseChange}
         handleAddExercise={handleAddExercise}
       />
       <div className="mb-4">

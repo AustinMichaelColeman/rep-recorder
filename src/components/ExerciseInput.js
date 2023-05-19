@@ -3,7 +3,7 @@ import React from "react";
 export default function ExerciseInput({
   selectedExercise,
   exerciseOptions,
-  handleInputChange,
+  handleExerciseChange,
   handleAddExercise,
 }) {
   return (
@@ -18,7 +18,7 @@ export default function ExerciseInput({
         id="exercise"
         name="exercise"
         value={selectedExercise}
-        onChange={handleInputChange}
+        onChange={handleExerciseChange}
         required
         className="border rounded p-2"
       >
