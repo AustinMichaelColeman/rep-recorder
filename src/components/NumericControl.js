@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function NumericControl({ label, value, name, step, onChange }) {
   const handleIncrement = () => {
     onChange({ target: { name, value: value + step } });
