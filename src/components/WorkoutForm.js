@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import NumericControl from "@/components/NumericControl";
-
+import DateInput from "@/components/DateInput";
 import moment from "moment";
 
 export default function WorkoutForm({
@@ -72,23 +72,7 @@ export default function WorkoutForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col items-center">
-      <div className="mb-4">
-        <label
-          htmlFor="date"
-          className="mr-2 text-lg text-light-label dark:text-dark-label"
-        >
-          Date
-        </label>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          value={formValues.date}
-          onChange={handleInputChange}
-          required
-          className="border rounded p-2"
-        />
-      </div>
+      <DateInput value={formValues.date} onChange={handleInputChange} />
       <div className="mb-4">
         <label
           htmlFor="exercise"
