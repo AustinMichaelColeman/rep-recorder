@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import NumericControl from "@/components/NumericControl";
 import DateInput from "@/components/DateInput";
 import ExerciseInput from "@/components/ExerciseInput";
