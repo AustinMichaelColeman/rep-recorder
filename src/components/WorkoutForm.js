@@ -21,7 +21,7 @@ export default function WorkoutForm({
 
   const [workoutId, setworkoutId] = useState(0);
 
-  const handleAddExercise = async () => {
+  const handleAddExercise = () => {
     const exerciseName = prompt("Enter the exercise name:");
 
     if (exerciseName) {
