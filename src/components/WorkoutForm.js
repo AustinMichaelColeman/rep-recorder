@@ -5,13 +5,22 @@ import DateInput from "@/components/DateInput";
 import ExerciseInput from "@/components/ExerciseInput";
 import moment from "moment";
 
-export default function WorkoutForm({
-  setWorkouts,
-  exerciseOptions,
-  setExerciseOptions,
-  selectedExercise,
-  setSelectedExercise,
-}) {
+const initialExerciseOptions = [
+  { value: "Bench Press", label: "Bench Press" },
+  { value: "Dumbbell Curl", label: "Dumbbell Curl" },
+  { value: "Leg Press", label: "Leg Press" },
+  { value: "Overhead Press", label: "Overhead Press" },
+];
+
+export default function WorkoutForm({ setWorkouts }) {
+  const [exerciseOptions, setExerciseOptions] = useState(
+    initialExerciseOptions
+  );
+
+  const [selectedExercise, setSelectedExercise] = useState(
+    initialExerciseOptions[0].value
+  );
+
   const [formValues, setFormValues] = useState({
     date: moment().format("YYYY-MM-DD"),
     exercise: selectedExercise,
@@ -74,6 +83,12 @@ export default function WorkoutForm({
     setFormValues((prevValues) => ({ ...prevValues, exercise: exercise }));
   };
 
+  const handleClearWorkouts = async () => {
+    setExerciseOptions(initialExerciseOptions);
+    setWorkouts([]);
+    setSelectedExercise(initialExerciseOptions[0].value);
+  };
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col items-center">
       <DateInput value={formValues.date} onChange={handleInputChange} />
@@ -107,6 +122,15 @@ export default function WorkoutForm({
       >
         Add Workout Log
       </button>
+      <div className="flex justify-center">
+        <button
+          type="button"
+          onClick={handleClearWorkouts}
+          className="mt-4 px-4 py-2 bg-light-button-background text-light-button-text dark:bg-dark-button-background dark:text-dark-button-text rounded "
+        >
+          Clear Workouts
+        </button>
+      </div>
     </form>
   );
 }
