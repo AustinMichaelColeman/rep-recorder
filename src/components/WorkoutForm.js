@@ -4,6 +4,8 @@ import NumericControl from "@/components/NumericControl";
 import DateInput from "@/components/DateInput";
 import ExerciseInput from "@/components/ExerciseInput";
 import moment from "moment";
+import { useAuthContext } from "@/context/AuthContext";
+import addWorkout from "@/firebase/firestore/addWorkout";
 
 const initialExerciseOptions = [
   { value: "Bench Press", label: "Bench Press" },
@@ -13,6 +15,8 @@ const initialExerciseOptions = [
 ];
 
 export default function WorkoutForm({ setWorkouts }) {
+  const { user } = useAuthContext();
+
   const [exerciseOptions, setExerciseOptions] = useState(
     initialExerciseOptions
   );
@@ -46,10 +50,11 @@ export default function WorkoutForm({ setWorkouts }) {
     setFormValues((prevValues) => ({ ...prevValues, exercise }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
     const workoutLog = {
-      id: workoutId,
+      id: `${user.uid}-${Date.now()}`,
       ...formValues,
       weight: parseFloat(formValues.weight),
       reps: parseInt(formValues.reps),
@@ -57,15 +62,20 @@ export default function WorkoutForm({ setWorkouts }) {
 
     setworkoutId(workoutId + 1);
     setWorkouts((prevWorkouts) => [...prevWorkouts, workoutLog]);
-  };
 
-  const handleClearWorkouts = async () => {
-    setExerciseOptions(initialExerciseOptions);
-    setWorkouts([]);
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      exercise: initialExerciseOptions[0].value,
-    }));
+    if (user !== null) {
+      const { result, error } = await addWorkout(
+        user.uid,
+        workoutLog.id,
+        workoutLog
+      );
+
+      if (error) {
+        return console.log(error);
+      }
+    } else {
+      console.log("no user");
+    }
   };
 
   return (
@@ -111,15 +121,6 @@ export default function WorkoutForm({ setWorkouts }) {
       >
         Add Workout Log
       </button>
-      <div className="flex justify-center">
-        <button
-          type="button"
-          onClick={handleClearWorkouts}
-          className="mt-4 px-4 py-2 bg-light-button-background text-light-button-text dark:bg-dark-button-background dark:text-dark-button-text rounded "
-        >
-          Clear Workouts
-        </button>
-      </div>
     </form>
   );
 }

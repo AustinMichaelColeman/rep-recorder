@@ -1,18 +1,38 @@
-import WorkoutTracker from "@/components/WorkoutTracker";
-import Credits from "@/components/Credits";
-import styles from "@/app/globals.css";
+"use client";
+import { useRouter } from "next/navigation";
+import HeaderBar from "@/components/HeaderBar";
+import { useAuthContext } from "@/context/AuthContext";
+import { useEffect } from "react";
+import Footer from "@/components/Footer";
 
 export default function Home() {
+  const router = useRouter();
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    if (user !== null) {
+      router.push("/workouts");
+    }
+  }, [user, router]);
+
   return (
-    <main className="flex flex-col bg-light-background dark:bg-dark-background min-h-screen">
-      <h1 className="text-4xl font-bold text-light-heading dark:text-dark-heading text-center">
-        Rep Recorder
-      </h1>
-      <h2 className="text-2xl font-medium text-light-heading dark:text-dark-heading text-center">
-        A workout tracking website
-      </h2>
-      <Credits />
-      <WorkoutTracker />
+    <main className="items-center flex flex-col  min-h-screen">
+      <HeaderBar />
+      <div className="flex flex-col space-y-4">
+        <button
+          className="px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition-colors duration-200 ease-in-out w-40"
+          onClick={() => router.push("/signup")}
+        >
+          Sign up
+        </button>
+        <button
+          className="px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition-colors duration-200 ease-in-out w-40"
+          onClick={() => router.push("/signin")}
+        >
+          Sign in
+        </button>
+      </div>
+      <Footer />
     </main>
   );
 }

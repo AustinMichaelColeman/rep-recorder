@@ -2,24 +2,42 @@ import { render, screen } from "@testing-library/react";
 import WorkoutList from "@/components/WorkoutList";
 import "@testing-library/jest-dom";
 
-describe("WorkoutList", () => {
-  const testWorkouts = [
-    {
-      id: 1,
-      date: "2023-05-20",
-      exercise: "Bench Press",
-      weight: 50,
-      reps: 10,
-    },
-    {
-      id: 2,
-      date: "2023-05-21",
-      exercise: "Dumbbell Curl",
-      weight: 40,
-      reps: 8,
-    },
-  ];
+import { getWorkouts } from "@/firebase/firestore/getWorkouts";
+import { useAuthContext } from "@/context/AuthContext";
 
+const testWorkouts = [
+  {
+    id: 1,
+    date: "2023-05-20",
+    exercise: "Bench Press",
+    weight: 50,
+    reps: 10,
+  },
+  {
+    id: 2,
+    date: "2023-05-21",
+    exercise: "Dumbbell Curl",
+    weight: 40,
+    reps: 8,
+  },
+];
+
+jest.mock("@/firebase/firestore/getWorkouts", () => ({
+  getWorkouts: jest.fn(() => ({
+    result: testWorkouts,
+    error: null,
+  })),
+}));
+
+jest.mock("@/context/AuthContext", () => ({
+  useAuthContext: jest.fn(() => ({
+    user: {
+      uid: "mockUserID",
+    },
+  })),
+}));
+
+describe("WorkoutList", () => {
   it("renders the workout list correctly", () => {
     render(<WorkoutList workouts={testWorkouts} />);
 
@@ -28,6 +46,7 @@ describe("WorkoutList", () => {
     expect(screen.getByText("Exercise")).toBeInTheDocument();
     expect(screen.getByText("Weight (lbs)")).toBeInTheDocument();
     expect(screen.getByText("Reps")).toBeInTheDocument();
+    expect(screen.getByText("Actions")).toBeInTheDocument();
 
     // Check if workout details are correctly rendered
     testWorkouts.forEach((workout) => {
@@ -46,5 +65,6 @@ describe("WorkoutList", () => {
     expect(screen.queryByText("Exercise")).not.toBeInTheDocument();
     expect(screen.queryByText("Weight (lbs)")).not.toBeInTheDocument();
     expect(screen.queryByText("Reps")).not.toBeInTheDocument();
+    expect(screen.queryByText("Actions")).not.toBeInTheDocument();
   });
 });
