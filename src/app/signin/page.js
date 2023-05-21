@@ -5,19 +5,20 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import HeaderBar from "@/components/HeaderBar";
 import passwordReset from "@/firebase/auth/passwordReset";
+import { useAuthContext } from "@/context/AuthContext";
 
-function Page() {
+export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
   const [resetEmailSent, setResetEmailSent] = useState(false);
 
+  const { user, setUser } = useAuthContext();
+
   const router = useRouter();
 
   const errorMessages = {
     auth: {
-      unverifiedEmail:
-        "Please verify your email address to access Rep Recorder. Check your inbox for the verification email",
       invalidCredentials:
         "Invalid email or password. Please double-check your credentials and try again.",
       userDisabled:
@@ -35,8 +36,6 @@ function Page() {
         return errorMessages.auth.invalidCredentials;
       case "auth/user-disabled":
         return errorMessages.auth.userDisabled;
-      case "auth/unverified-email":
-        return errorMessages.auth.unverifiedEmail;
       default:
         return errorMessages.auth.default;
     }
@@ -54,7 +53,15 @@ function Page() {
       return;
     }
 
-    return router.push("/workouts");
+    if (result && result.user && result.user.emailVerified) {
+      setUser(result.user);
+    }
+
+    if (result.user.emailVerified) {
+      router.push("/workouts");
+    } else {
+      router.push("/verify");
+    }
   };
 
   const handlePasswordReset = async () => {
@@ -137,5 +144,3 @@ function Page() {
     </div>
   );
 }
-
-export default Page;

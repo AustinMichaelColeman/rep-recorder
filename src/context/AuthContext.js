@@ -20,7 +20,6 @@ export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [emailVerified, setEmailVerified] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,12 +30,10 @@ export const AuthContextProvider = ({ children }) => {
         isTokenAutoRefreshEnabled: true,
       });
       const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
+        if (user && user.emailVerified) {
           setUser(user);
-          setEmailVerified(user.emailVerified);
         } else {
           setUser(null);
-          setEmailVerified(false);
         }
         setLoading(false);
       });
@@ -63,7 +60,7 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, emailVerified }}>
+    <AuthContext.Provider value={{ user, setUser }}>
       {loading ? <div>Loading...</div> : children}
     </AuthContext.Provider>
   );

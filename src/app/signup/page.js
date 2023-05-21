@@ -17,7 +17,7 @@ const errorMessages = {
 const defaultErrorMessage =
   "An unknown error occurred. Please try again later.";
 
-function Page() {
+export default function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
@@ -34,7 +34,7 @@ function Page() {
       return;
     }
 
-    return router.push("/workouts");
+    return router.push("/verify");
   };
 
   return (
@@ -97,5 +97,3 @@ function Page() {
     </div>
   );
 }
-
-export default Page;
