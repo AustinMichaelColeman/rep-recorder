@@ -16,7 +16,8 @@ function Page() {
 
   const errorMessages = {
     auth: {
-      unverifiedEmail: "Please verify your email before signing in.",
+      unverifiedEmail:
+        "Please verify your email address to access Rep Recorder. Check your inbox for the verification email",
       invalidCredentials:
         "Invalid email or password. Please double-check your credentials and try again.",
       userDisabled:

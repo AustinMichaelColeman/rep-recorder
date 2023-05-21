@@ -11,6 +11,7 @@ export default async function signIn(email, password) {
       if (!result.user.emailVerified) {
         const unverifiedError = new Error("Unverified email");
         unverifiedError.code = "auth/unverified-email";
+        throw unverifiedError;
       }
     }
   } catch (e) {
