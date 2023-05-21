@@ -13,7 +13,7 @@ export default function Page() {
   const [errorMessage, setErrorMessage] = useState(null);
   const [resetEmailSent, setResetEmailSent] = useState(false);
 
-  const { user, setUser } = useAuthContext();
+  const { setUser } = useAuthContext();
 
   const router = useRouter();
 

@@ -34,7 +34,7 @@ export default function Page() {
       return;
     }
 
-    return router.push("/verify");
+    router.push("/verify");
   };
 
   return (
