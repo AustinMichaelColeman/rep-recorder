@@ -2,6 +2,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/config";
+import { initializeAppCheck, ReCaptchaV3Provider } from "firebase/app-check";
 
 let auth;
 try {
@@ -24,6 +25,11 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (auth) {
+      // Initialize Firebase app check with reCAPTCHA
+      const appCheck = initializeAppCheck(firebase_app, {
+        provider: new ReCaptchaV3Provider(process.env.NEXT_PUBLIC_CAPTCHA_ID),
+        isTokenAutoRefreshEnabled: true,
+      });
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           setUser(user);
