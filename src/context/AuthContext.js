@@ -1,30 +1,57 @@
 "use client";
-import React from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { onAuthStateChanged, getAuth } from "firebase/auth";
 import firebase_app from "@/firebase/config";
 
-const auth = getAuth(firebase_app);
+let auth;
+try {
+  auth = getAuth(firebase_app);
+} catch (error) {
+  auth = null;
+  console.error(
+    "Firebase couldn't be initialized. Please check your Firebase credentials."
+  );
+}
 
-export const AuthContext = React.createContext({});
+export const AuthContext = createContext({});
 
-export const useAuthContext = () => React.useContext(AuthContext);
+export const useAuthContext = () => useContext(AuthContext);
 
 export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
-      }
+  useEffect(() => {
+    if (auth) {
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          setUser(user);
+        } else {
+          setUser(null);
+        }
+        setLoading(false);
+      });
+
+      return () => unsubscribe();
+    } else {
       setLoading(false);
-    });
-
-    return () => unsubscribe();
+    }
   }, []);
+
+  if (!auth) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-100">
+        <div className="p-8 max-w-md mx-auto bg-white rounded shadow-lg">
+          <h1 className="text-xl font-semibold mb-4">
+            Rep Recorder - Site Down
+          </h1>
+          <p className="text-red-500">
+            Rep Recorder is offline right now. Check back later.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <AuthContext.Provider value={{ user }}>
