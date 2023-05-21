@@ -37,10 +37,6 @@ function Page() {
     return router.push("/workouts");
   };
 
-  const navigateToLogin = () => {
-    router.push("/signin");
-  };
-
   return (
     <div className="flex flex-col lg:flex-row items-center justify-center space-y-4 lg:space-y-0 lg:space-x-4 h-screen bg-gray-100">
       <HeaderBar />
