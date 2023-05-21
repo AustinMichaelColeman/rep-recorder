@@ -4,11 +4,14 @@ import signIn from "@/firebase/auth/signin";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import HeaderBar from "@/components/HeaderBar";
+import passwordReset from "@/firebase/auth/passwordReset";
 
 function Page() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState(null);
+  const [resetEmailSent, setResetEmailSent] = useState(false);
+
   const router = useRouter();
 
   const errorMessages = {
@@ -53,6 +56,15 @@ function Page() {
     return router.push("/workouts");
   };
 
+  const handlePasswordReset = async () => {
+    if (email) {
+      const { error } = await passwordReset(email);
+      if (!error) {
+        setResetEmailSent(true);
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col lg:flex-row items-center justify-center space-y-4 lg:space-y-0 lg:space-x-4 h-screen bg-gray-100">
       <HeaderBar />
@@ -83,6 +95,17 @@ function Page() {
             >
               Password
             </label>
+            <p
+              onClick={handlePasswordReset}
+              className="text-indigo-500 hover:text-indigo-600 hover:underline cursor-pointer"
+            >
+              Forgot password?
+            </p>
+            {resetEmailSent && (
+              <p className="text-green-500">
+                Password reset email sent! Please check your inbox.
+              </p>
+            )}
             <input
               onChange={(e) => setPassword(e.target.value)}
               required
