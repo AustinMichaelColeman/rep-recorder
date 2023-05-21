@@ -1,14 +1,39 @@
 "use client";
-import React from "react";
+import { useState } from "react";
 import signIn from "@/firebase/auth/signin";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import HeaderBar from "@/components/HeaderBar";
 
 function Page() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [errorMessage, setErrorMessage] = React.useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState(null);
   const router = useRouter();
+
+  const errorMessages = {
+    auth: {
+      invalidCredentials:
+        "Invalid email or password. Please double-check your credentials and try again.",
+      userDisabled:
+        "This account has been disabled. If you believe this is an error, please contact support.",
+      default:
+        "An unexpected error occurred. Please try again later. If the problem persists, contact support.",
+    },
+  };
+
+  const getErrorMessage = (errorCode) => {
+    switch (errorCode) {
+      case "auth/invalid-email":
+      case "auth/user-not-found":
+      case "auth/wrong-password":
+        return errorMessages.auth.invalidCredentials;
+      case "auth/user-disabled":
+        return errorMessages.auth.userDisabled;
+      default:
+        return errorMessages.auth.default;
+    }
+  };
 
   const handleForm = async (event) => {
     event.preventDefault();
@@ -17,8 +42,9 @@ function Page() {
     const { result, error } = await signIn(email, password);
 
     if (error) {
-      console.log(error);
-      return setErrorMessage("Incorrect email or password");
+      const message = getErrorMessage(error.code);
+      setErrorMessage(message);
+      return;
     }
 
     return router.push("/workouts");
@@ -28,8 +54,10 @@ function Page() {
     <div className="flex flex-col lg:flex-row items-center justify-center space-y-4 lg:space-y-0 lg:space-x-4 h-screen bg-gray-100">
       <HeaderBar />
       <div className="p-10 bg-white rounded shadow-lg w-80">
-        <h1 className="mb-6 text-2xl font-semibold text-gray-700">Sign In</h1>
-        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+        <h1 className="mb-6 text-2xl font-semibold text-gray-700">
+          Welcome Back! Sign In to Rep Recorder
+        </h1>
+        {errorMessage && <p className="text-red-600">{errorMessage}</p>}
         <form onSubmit={handleForm}>
           <div className="mb-5">
             <label htmlFor="email" className="block mb-2 text-sm text-gray-600">
@@ -69,12 +97,15 @@ function Page() {
             Sign In
           </button>
         </form>
-        <button
-          onClick={() => router.push("/signup")}
-          className="w-full px-3 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
-        >
-          Sign Up
-        </button>
+        <div className="text-center mt-4">
+          <p>{"Don't have an account?"}</p>
+          <Link
+            href="/signup"
+            className="text-indigo-500 hover:text-indigo-600 hover:underline"
+          >
+            Sign Up
+          </Link>
+        </div>
       </div>
     </div>
   );
