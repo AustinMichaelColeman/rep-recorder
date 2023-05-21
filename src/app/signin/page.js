@@ -13,6 +13,7 @@ function Page() {
 
   const errorMessages = {
     auth: {
+      unverifiedEmail: "Please verify your email before signing in.",
       invalidCredentials:
         "Invalid email or password. Please double-check your credentials and try again.",
       userDisabled:
@@ -30,6 +31,8 @@ function Page() {
         return errorMessages.auth.invalidCredentials;
       case "auth/user-disabled":
         return errorMessages.auth.userDisabled;
+      case "auth/unverified-email":
+        return errorMessages.auth.unverifiedEmail;
       default:
         return errorMessages.auth.default;
     }
