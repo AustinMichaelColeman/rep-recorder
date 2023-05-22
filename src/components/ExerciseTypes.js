@@ -106,7 +106,7 @@ export default function ExerciseTypes() {
         <input
           value={newExerciseTypeName}
           onChange={(e) => setNewExerciseTypeName(e.target.value)}
-          placeholder="Exercise Type (eg. Treadmill)"
+          placeholder="Exercise Type"
           className="mr-4 px-2 py-1 border rounded-lg"
         />
         <button
