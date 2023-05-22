@@ -1,45 +1,34 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import NumericControl from "@/components/NumericControl";
 import DateInput from "@/components/DateInput";
 import ExerciseInput from "@/components/ExerciseInput";
 import moment from "moment";
 import { useAuthContext } from "@/context/AuthContext";
 import addWorkout from "@/firebase/firestore/addWorkout";
-import defaultExerciseTypes from "@/data/defaultExerciseTypes";
-import { getExerciseTypes } from "@/firebase/firestore/exerciseTypes";
+import useExerciseTypes from "@/hooks/useExerciseTypes";
+
+const DEFAULT_FORM_VALUES = {
+  date: moment().format("YYYY-MM-DD"),
+  exerciseValue: "",
+  exerciseLabel: "",
+  weight: 0,
+  reps: 0,
+};
+
+const generateWorkoutLogId = (uid) => `${uid}-${Date.now()}`;
 
 export default function WorkoutForm({ setWorkouts }) {
   const { user } = useAuthContext();
 
-  const [exerciseOptions, setExerciseOptions] = useState(defaultExerciseTypes);
+  const { exerciseOptions, isLoading, isError } = useExerciseTypes();
   const [formValues, setFormValues] = useState({
-    date: moment().format("YYYY-MM-DD"),
-    exerciseValue: defaultExerciseTypes[0].value,
-    exerciseLabel: defaultExerciseTypes[0].label,
-    weight: 0,
-    reps: 0,
+    ...DEFAULT_FORM_VALUES,
+    exerciseValue:
+      exerciseOptions[0]?.value || DEFAULT_FORM_VALUES.exerciseValue,
+    exerciseLabel:
+      exerciseOptions[0]?.label || DEFAULT_FORM_VALUES.exerciseLabel,
   });
-  const [workoutId, setworkoutId] = useState(0);
-
-  useEffect(() => {
-    if (user !== null) {
-      getExerciseTypes(user.uid).then(({ result }) => {
-        if (result.length > 0) {
-          const options = result.map((exerciseType) => ({
-            value: exerciseType.value,
-            label: exerciseType.label,
-          }));
-          setExerciseOptions(options);
-          setFormValues((prevValues) => ({
-            ...prevValues,
-            exerciseValue: options[0].value,
-            exerciseLabel: options[0].label,
-          }));
-        }
-      });
-    }
-  }, [user]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -48,43 +37,54 @@ export default function WorkoutForm({ setWorkouts }) {
 
   const handleExerciseSelectChange = (event) => {
     const exerciseValue = event.target.value;
-    const exerciseLabel = exerciseOptions.find(
+    const selectedExercise = exerciseOptions.find(
       (opt) => opt.value === exerciseValue
-    ).label;
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      exerciseValue,
-      exerciseLabel,
-    }));
+    );
+
+    if (selectedExercise) {
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        exerciseValue,
+        exerciseLabel: selectedExercise.label,
+      }));
+    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!user) {
+      console.log("no user");
+      return;
+    }
+
     const workoutLog = {
-      id: `${user.uid}-${Date.now()}`,
+      id: generateWorkoutLogId(user.uid),
       ...formValues,
       weight: parseFloat(formValues.weight),
       reps: parseInt(formValues.reps),
     };
 
-    setworkoutId(workoutId + 1);
     setWorkouts((prevWorkouts) => [...prevWorkouts, workoutLog]);
 
-    if (user !== null) {
-      const { result, error } = await addWorkout(
-        user.uid,
-        workoutLog.id,
-        workoutLog
-      );
+    const { result, error } = await addWorkout(
+      user.uid,
+      workoutLog.id,
+      workoutLog
+    );
 
-      if (error) {
-        return console.log(error);
-      }
-    } else {
-      console.log("no user");
+    if (error) {
+      return console.log(error);
     }
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error occurred...</div>;
+  }
 
   return (
     <form
@@ -99,7 +99,7 @@ export default function WorkoutForm({ setWorkouts }) {
         name="date"
       />
       <ExerciseInput
-        selectedExercise={formValues.exercise}
+        selectedExercise={formValues.exerciseValue}
         exerciseOptions={exerciseOptions}
         handleExerciseSelectChange={handleExerciseSelectChange}
         name="exercise"
