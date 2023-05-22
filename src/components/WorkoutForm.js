@@ -1,40 +1,46 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NumericControl from "@/components/NumericControl";
 import DateInput from "@/components/DateInput";
 import ExerciseInput from "@/components/ExerciseInput";
 import moment from "moment";
+import { useAuthContext } from "@/context/AuthContext";
+import addWorkout from "@/firebase/firestore/addWorkout";
+import useExerciseTypes from "@/hooks/useExerciseTypes";
 
-const initialExerciseOptions = [
-  { value: "Bench Press", label: "Bench Press" },
-  { value: "Dumbbell Curl", label: "Dumbbell Curl" },
-  { value: "Leg Press", label: "Leg Press" },
-  { value: "Overhead Press", label: "Overhead Press" },
-];
+const DEFAULT_FORM_VALUES = {
+  date: moment().format("YYYY-MM-DD"),
+  exerciseValue: "",
+  exerciseLabel: "",
+  weight: 0,
+  reps: 0,
+};
+
+const generateWorkoutLogId = (uid) => `${uid}-${Date.now()}`;
 
 export default function WorkoutForm({ setWorkouts }) {
-  const [exerciseOptions, setExerciseOptions] = useState(
-    initialExerciseOptions
-  );
+  const { user } = useAuthContext();
+
+  const { exerciseOptions, isLoading, isError } = useExerciseTypes();
   const [formValues, setFormValues] = useState({
-    date: moment().format("YYYY-MM-DD"),
-    exercise: initialExerciseOptions[0].value,
-    weight: 0,
-    reps: 0,
+    ...DEFAULT_FORM_VALUES,
+    exerciseValue:
+      exerciseOptions[0]?.value || DEFAULT_FORM_VALUES.exerciseValue,
+    exerciseLabel:
+      exerciseOptions[0]?.label || DEFAULT_FORM_VALUES.exerciseLabel,
   });
-  const [workoutId, setworkoutId] = useState(0);
 
-  const handleAddExercise = () => {
-    const exerciseName = prompt("Enter the exercise name:");
-    if (!exerciseName) return;
-
-    const newExercise = { value: exerciseName, label: exerciseName };
-    setExerciseOptions((prevOptions) => [...prevOptions, newExercise]);
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      exercise: exerciseName,
-    }));
-  };
+  useEffect(() => {
+    setFormValues((prevValues) => {
+      return {
+        ...prevValues,
+        exerciseValue:
+          exerciseOptions[0]?.value || DEFAULT_FORM_VALUES.exerciseValue,
+        exerciseLabel:
+          exerciseOptions[0]?.label || DEFAULT_FORM_VALUES.exerciseLabel,
+      };
+    });
+  }, [exerciseOptions]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -42,31 +48,55 @@ export default function WorkoutForm({ setWorkouts }) {
   };
 
   const handleExerciseSelectChange = (event) => {
-    const exercise = event.target.value;
-    setFormValues((prevValues) => ({ ...prevValues, exercise }));
+    const exerciseValue = event.target.value;
+    const selectedExercise = exerciseOptions.find(
+      (opt) => opt.value === exerciseValue
+    );
+
+    if (selectedExercise) {
+      setFormValues((prevValues) => ({
+        ...prevValues,
+        exerciseValue,
+        exerciseLabel: selectedExercise.label,
+      }));
+    }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!user) {
+      console.log("no user");
+      return;
+    }
+
     const workoutLog = {
-      id: workoutId,
+      id: generateWorkoutLogId(user.uid),
       ...formValues,
       weight: parseFloat(formValues.weight),
       reps: parseInt(formValues.reps),
     };
 
-    setworkoutId(workoutId + 1);
     setWorkouts((prevWorkouts) => [...prevWorkouts, workoutLog]);
+
+    const { result, error } = await addWorkout(
+      user.uid,
+      workoutLog.id,
+      workoutLog
+    );
+
+    if (error) {
+      return console.log(error);
+    }
   };
 
-  const handleClearWorkouts = async () => {
-    setExerciseOptions(initialExerciseOptions);
-    setWorkouts([]);
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      exercise: initialExerciseOptions[0].value,
-    }));
-  };
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error occurred...</div>;
+  }
 
   return (
     <form
@@ -81,10 +111,9 @@ export default function WorkoutForm({ setWorkouts }) {
         name="date"
       />
       <ExerciseInput
-        selectedExercise={formValues.exercise}
+        selectedExercise={formValues.exerciseValue}
         exerciseOptions={exerciseOptions}
         handleExerciseSelectChange={handleExerciseSelectChange}
-        handleAddExercise={handleAddExercise}
         name="exercise"
       />
       <NumericControl
@@ -111,15 +140,6 @@ export default function WorkoutForm({ setWorkouts }) {
       >
         Add Workout Log
       </button>
-      <div className="flex justify-center">
-        <button
-          type="button"
-          onClick={handleClearWorkouts}
-          className="mt-4 px-4 py-2 bg-light-button-background text-light-button-text dark:bg-dark-button-background dark:text-dark-button-text rounded "
-        >
-          Clear Workouts
-        </button>
-      </div>
     </form>
   );
 }

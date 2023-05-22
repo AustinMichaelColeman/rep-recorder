@@ -1,10 +1,23 @@
 import WorkoutItem from "@/components/WorkoutItem";
+import removeWorkout from "@/firebase/firestore/removeWorkout";
+import { useAuthContext } from "@/context/AuthContext";
 
-const workoutColumns = ["Date", "Exercise", "Weight (lbs)", "Reps"];
+const workoutColumns = ["Date", "Exercise", "Weight (lbs)", "Reps", "Actions"];
 
-export default function WorkoutList({ workouts }) {
+export default function WorkoutList({ workouts, setWorkouts }) {
+  const { user } = useAuthContext();
+
+  const handleRemoveWorkout = async (workoutId) => {
+    const { result, error } = await removeWorkout(user.uid, workoutId);
+    if (error) {
+      console.error("Failed to remove workout:", error);
+      return;
+    }
+    setWorkouts(workouts.filter((workout) => workout.id !== workoutId));
+  };
+
   return (
-    <div className="flex justify-center">
+    <div className="flex-grow overflow-auto">
       <table className="mt-4 w-full">
         <thead>
           {workouts.length > 0 && (
@@ -21,9 +34,16 @@ export default function WorkoutList({ workouts }) {
           )}
         </thead>
         <tbody className="bg-white divide-y divide-gray-300 dark:bg-dark-background dark:divide-gray-700">
-          {workouts.map((workout, index) => (
-            <WorkoutItem key={workout.id} workout={workout} index={index} />
-          ))}
+          {workouts.map((workout, index) => {
+            return (
+              <WorkoutItem
+                key={workout.id}
+                workout={workout}
+                index={index}
+                onRemove={() => handleRemoveWorkout(workout.id)}
+              />
+            );
+          })}
         </tbody>
       </table>
     </div>

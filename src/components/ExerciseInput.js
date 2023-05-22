@@ -2,7 +2,6 @@ export default function ExerciseInput({
   selectedExercise,
   exerciseOptions,
   handleExerciseSelectChange,
-  handleAddExercise,
   name,
 }) {
   return (
@@ -21,19 +20,14 @@ export default function ExerciseInput({
         required
         className="border rounded p-2"
       >
-        {exerciseOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
+        {exerciseOptions.map((option) => {
+          return (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          );
+        })}
       </select>
-      <button
-        type="button"
-        onClick={handleAddExercise}
-        className="bg-light-button-background text-light-button-text dark:bg-dark-button-background dark:text-dark-button-text rounded px-4 py-2 ml-2"
-      >
-        Add Exercise
-      </button>
     </div>
   );
 }
