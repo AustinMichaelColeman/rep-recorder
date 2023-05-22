@@ -1,9 +1,7 @@
-import firebase_app from "../config";
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "@/firebase/init.js";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 export default async function passwordReset(email) {
-  const auth = getAuth(firebase_app);
-
   let result = null;
   let error = null;
   try {

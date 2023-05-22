@@ -1,6 +1,5 @@
-import firebase_app from "../config";
+import { db } from "@/firebase/init.js";
 import {
-  getFirestore,
   collection,
   addDoc,
   getDocs,
@@ -9,8 +8,6 @@ import {
   deleteDoc,
   writeBatch,
 } from "firebase/firestore";
-
-const db = getFirestore(firebase_app);
 
 export async function getExerciseTypes(userId) {
   const exerciseTypeCollection = collection(

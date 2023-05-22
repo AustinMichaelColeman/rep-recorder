@@ -1,8 +1,7 @@
-import firebase_app from "../config";
-import { getAuth, signOut } from "firebase/auth";
+import { auth } from "@/firebase/init.js";
+import { signOut } from "firebase/auth";
 
 export async function handleSignout() {
-  const auth = getAuth(firebase_app);
   try {
     await signOut(auth);
   } catch (error) {

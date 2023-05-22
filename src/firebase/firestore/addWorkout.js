@@ -1,7 +1,5 @@
-import firebase_app from "../config";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
-
-const db = getFirestore(firebase_app);
+import { db } from "@/firebase/init.js";
+import { doc, setDoc } from "firebase/firestore";
 
 export default async function addWorkout(user_id, workout_id, data) {
   let result = null;

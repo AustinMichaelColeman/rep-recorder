@@ -1,6 +1,6 @@
 import { initializeApp, getApps } from "firebase/app";
 
-const firebaseConfig = {
+const firebase_config = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -10,12 +10,12 @@ const firebaseConfig = {
   measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
-let firebaseApp;
+let firebase_app;
 
 if (getApps().length === 0) {
-  firebaseApp = initializeApp(firebaseConfig);
+  firebase_app = initializeApp(firebase_config);
 } else {
-  firebaseApp = getApps()[0];
+  firebase_app = getApps()[0];
 }
 
-export default firebaseApp;
+export default firebase_app;

@@ -1,7 +1,5 @@
-import firebase_app from "../config";
+import { db } from "@/firebase/init.js";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
-
-const db = getFirestore(firebase_app);
 
 export async function getWorkouts(userId) {
   const workoutCollection = collection(db, "users", userId, "workouts");

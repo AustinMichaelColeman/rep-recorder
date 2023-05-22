@@ -1,7 +1,5 @@
-import firebase_app from "../config";
-import { getFirestore, doc, deleteDoc } from "firebase/firestore";
-
-const db = getFirestore(firebase_app);
+import { db } from "@/firebase/init.js";
+import { doc, deleteDoc } from "firebase/firestore";
 
 export default async function removeWorkout(user_id, workout_id) {
   let result = null;
