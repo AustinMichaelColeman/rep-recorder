@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NumericControl from "@/components/NumericControl";
 import DateInput from "@/components/DateInput";
 import ExerciseInput from "@/components/ExerciseInput";
@@ -29,6 +29,18 @@ export default function WorkoutForm({ setWorkouts }) {
     exerciseLabel:
       exerciseOptions[0]?.label || DEFAULT_FORM_VALUES.exerciseLabel,
   });
+
+  useEffect(() => {
+    setFormValues((prevValues) => {
+      return {
+        ...prevValues,
+        exerciseValue:
+          exerciseOptions[0]?.value || DEFAULT_FORM_VALUES.exerciseValue,
+        exerciseLabel:
+          exerciseOptions[0]?.label || DEFAULT_FORM_VALUES.exerciseLabel,
+      };
+    });
+  }, [exerciseOptions]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
