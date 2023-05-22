@@ -68,20 +68,40 @@ export async function addExerciseTypes(userId, types) {
 }
 
 export async function updateExerciseType(user_id, exerciseType_id, data) {
-  let result = null;
-  let error = null;
+  const batch = writeBatch(db);
 
   try {
-    await updateDoc(
-      doc(db, "users", user_id, "exerciseTypes", exerciseType_id),
-      data
+    // First, update the exercise type
+    const exerciseTypeRef = doc(
+      db,
+      "users",
+      user_id,
+      "exerciseTypes",
+      exerciseType_id
     );
-    result = true;
-  } catch (e) {
-    error = e;
-  }
+    batch.update(exerciseTypeRef, data);
 
-  return { result, error };
+    // Then, get all workouts of this exercise type
+    const workoutCollection = collection(db, "users", user_id, "workouts");
+    const workoutSnapshot = await getDocs(workoutCollection);
+
+    // Filter workouts by exercise type
+    const workoutsToUpdate = workoutSnapshot.docs.filter(
+      (workout) => workout.data().exerciseValue === exerciseType_id
+    );
+
+    // Update each workout's exerciseLabel to the new exercise label
+    workoutsToUpdate.forEach((workout) => {
+      const workoutRef = doc(db, "users", user_id, "workouts", workout.id);
+      batch.update(workoutRef, { exerciseLabel: data.label });
+    });
+
+    // Commit the batch
+    await batch.commit();
+    return { result: true };
+  } catch (e) {
+    return { error: e };
+  }
 }
 
 export async function removeExerciseType(user_id, exerciseType_id) {
