@@ -80,6 +80,12 @@ export default function Page() {
               className="w-full px-3 py-2 placeholder-gray-300 dark:placeholder-gray-700 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-400"
             />
           </div>
+          <p className="text-sm mb-2 text-gray-500 dark:text-gray-400">
+            By signing up, you agree to our{" "}
+            <Link href="/privacy" className="underline">
+              privacy policy
+            </Link>
+          </p>
           <button
             type="submit"
             className="w-full px-3 py-2 text-white bg-indigo-500 dark:bg-indigo-400 rounded-md hover:bg-indigo-600 dark:hover:bg-indigo-500"
