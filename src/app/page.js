@@ -20,6 +20,20 @@ export default function Home() {
     <main className="flex flex-col items-center justify-center min-h-screen dark:bg-gray-900">
       <HeaderBar />
       <div className="text-center p-6 space-y-2 dark:text-gray-300">
+        <div className="space-x-4">
+          <button
+            className="px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-lg transition-all duration-200 ease-in-out"
+            onClick={() => router.push("/signup")}
+          >
+            Sign up
+          </button>
+          <button
+            className="px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-lg transition-all duration-200 ease-in-out"
+            onClick={() => router.push("/signin")}
+          >
+            Sign in
+          </button>
+        </div>
         <h1 className="text-2xl font-semibold text-gray-700 dark:text-white">
           Features
         </h1>
@@ -60,21 +74,6 @@ export default function Home() {
           <p className="text-xs text-gray-600 dark:text-gray-400 italic mt-1">
             Screenshot of customizable exercise types
           </p>
-        </div>
-
-        <div className="space-x-4">
-          <button
-            className="px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-lg transition-all duration-200 ease-in-out"
-            onClick={() => router.push("/signup")}
-          >
-            Sign up
-          </button>
-          <button
-            className="px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 shadow-lg transition-all duration-200 ease-in-out"
-            onClick={() => router.push("/signin")}
-          >
-            Sign in
-          </button>
         </div>
       </div>
       <Footer />

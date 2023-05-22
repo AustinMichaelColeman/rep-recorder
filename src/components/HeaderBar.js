@@ -1,6 +1,7 @@
 import { useAuthContext } from "@/context/AuthContext";
 import { handleSignout } from "@/firebase/auth/signout";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function HeaderBar() {
   const { user } = useAuthContext();
@@ -18,9 +19,11 @@ export default function HeaderBar() {
   return (
     <header className="flex justify-between items-center py-4 px-6 bg-white dark:bg-gray-800 shadow">
       <div className="flex items-center">
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-white">
-          Rep Recorder
-        </h1>
+        <Link href="/">
+          <h1 className="text-4xl font-bold text-blue-500 underline dark:text-blue-500 cursor-pointer hover:text-blue-600 dark:hover:text-blue-600 transition-colors duration-200">
+            Rep Recorder
+          </h1>
+        </Link>
         <h2 className="ml-4 text-2xl font-medium text-gray-600 dark:text-gray-300">
           A workout tracking website
         </h2>
