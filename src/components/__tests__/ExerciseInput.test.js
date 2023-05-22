@@ -8,12 +8,11 @@ describe("ExerciseInput", () => {
     { value: "exercise2", label: "Exercise 2" },
   ];
 
-  it("renders a select field with the correct name and options, and an add button", () => {
+  it("renders a select field with the correct name and options", () => {
     const testProps = {
       selectedExercise: "exercise1",
       exerciseOptions,
       handleExerciseSelectChange: jest.fn(),
-      handleAddExercise: jest.fn(),
       name: "testName",
     };
 
@@ -26,9 +25,6 @@ describe("ExerciseInput", () => {
     for (let option of exerciseOptions) {
       expect(screen.getByText(option.label)).toBeInTheDocument();
     }
-
-    const buttonElement = screen.getByRole("button", /Add Exercise/i);
-    expect(buttonElement).toBeInTheDocument();
   });
 
   it("displays the correct selected exercise", () => {
@@ -36,7 +32,6 @@ describe("ExerciseInput", () => {
       selectedExercise: "exercise1",
       exerciseOptions,
       handleExerciseSelectChange: jest.fn(),
-      handleAddExercise: jest.fn(),
       name: "testName",
     };
 
@@ -53,7 +48,6 @@ describe("ExerciseInput", () => {
       selectedExercise: "exercise1",
       exerciseOptions,
       handleExerciseSelectChange: mockHandleExerciseSelectChange,
-      handleAddExercise: jest.fn(),
       name: "testName",
     };
 
@@ -62,23 +56,5 @@ describe("ExerciseInput", () => {
     const selectElement = screen.getByLabelText(/Exercise/i);
     fireEvent.change(selectElement, { target: { value: "exercise2" } });
     expect(mockHandleExerciseSelectChange).toHaveBeenCalled();
-  });
-
-  it("calls the handleAddExercise handler when the add button is clicked", () => {
-    const mockHandleAddExercise = jest.fn();
-
-    const testProps = {
-      selectedExercise: "exercise1",
-      exerciseOptions,
-      handleExerciseSelectChange: jest.fn(),
-      handleAddExercise: mockHandleAddExercise,
-      name: "testName",
-    };
-
-    render(<ExerciseInput {...testProps} />);
-
-    const buttonElement = screen.getByRole("button", /Add Exercise/i);
-    fireEvent.click(buttonElement);
-    expect(mockHandleAddExercise).toHaveBeenCalled();
   });
 });

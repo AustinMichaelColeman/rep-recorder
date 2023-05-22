@@ -1,9 +1,21 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import WorkoutList from "@/components/WorkoutList";
+import WorkoutItem from "@/components/WorkoutItem";
 import "@testing-library/jest-dom";
-
-import { getWorkouts } from "@/firebase/firestore/getWorkouts";
 import { useAuthContext } from "@/context/AuthContext";
+import removeWorkout from "@/firebase/firestore/removeWorkout";
+
+// Mocking removeWorkout
+jest.mock("@/firebase/firestore/removeWorkout", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
+
+// Mocking WorkoutItem
+jest.mock("@/components/WorkoutItem", () => ({
+  __esModule: true,
+  default: jest.fn(),
+}));
 
 const testWorkouts = [
   {
@@ -22,13 +34,6 @@ const testWorkouts = [
   },
 ];
 
-jest.mock("@/firebase/firestore/getWorkouts", () => ({
-  getWorkouts: jest.fn(() => ({
-    result: testWorkouts,
-    error: null,
-  })),
-}));
-
 jest.mock("@/context/AuthContext", () => ({
   useAuthContext: jest.fn(() => ({
     user: {
@@ -38,8 +43,28 @@ jest.mock("@/context/AuthContext", () => ({
 }));
 
 describe("WorkoutList", () => {
-  it("renders the workout list correctly", () => {
-    render(<WorkoutList workouts={testWorkouts} />);
+  it("renders the workout list correctly and handles workout removal", async () => {
+    // Mocking the removeWorkout to resolve successfully
+    removeWorkout.mockResolvedValue({ result: true, error: null });
+
+    const mockSetWorkouts = jest.fn();
+
+    // Define what the mock WorkoutItem should render
+    WorkoutItem.mockImplementation(({ workout, onRemove }) => (
+      <tr>
+        <td>{workout.date}</td>
+        <td>{workout.exercise}</td>
+        <td>{workout.weight}</td>
+        <td>{workout.reps}</td>
+        <td>
+          <button onClick={onRemove}>Delete</button>
+        </td>
+      </tr>
+    ));
+
+    render(
+      <WorkoutList workouts={testWorkouts} setWorkouts={mockSetWorkouts} />
+    );
 
     // Check if table headers are correctly rendered
     expect(screen.getByText("Date")).toBeInTheDocument();
@@ -52,19 +77,14 @@ describe("WorkoutList", () => {
     testWorkouts.forEach((workout) => {
       expect(screen.getByText(workout.date)).toBeInTheDocument();
       expect(screen.getByText(workout.exercise)).toBeInTheDocument();
-      expect(screen.getByText(workout.weight)).toBeInTheDocument();
-      expect(screen.getByText(workout.reps)).toBeInTheDocument();
+      expect(screen.getByText(String(workout.weight))).toBeInTheDocument();
+      expect(screen.getByText(String(workout.reps))).toBeInTheDocument();
     });
-  });
 
-  it("renders no headers when there are no workouts", () => {
-    render(<WorkoutList workouts={[]} />);
+    const deleteButtons = screen.getAllByText("Delete");
+    await fireEvent.click(deleteButtons[0]);
 
-    // Check that no headers are displayed
-    expect(screen.queryByText("Date")).not.toBeInTheDocument();
-    expect(screen.queryByText("Exercise")).not.toBeInTheDocument();
-    expect(screen.queryByText("Weight (lbs)")).not.toBeInTheDocument();
-    expect(screen.queryByText("Reps")).not.toBeInTheDocument();
-    expect(screen.queryByText("Actions")).not.toBeInTheDocument();
+    // Check if setWorkouts has been called with the remaining workouts
+    expect(mockSetWorkouts).toHaveBeenCalledWith([testWorkouts[1]]);
   });
 });

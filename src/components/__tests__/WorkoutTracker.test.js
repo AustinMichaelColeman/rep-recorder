@@ -1,4 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { render, fireEvent, screen } from "@testing-library/react";
+import { useRouter } from "next/navigation";
 import WorkoutTracker from "@/components/WorkoutTracker";
 import "@testing-library/jest-dom";
 
@@ -37,8 +38,19 @@ jest.mock("@/context/AuthContext", () => ({
   })),
 }));
 
+// Mocking useRouter
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(),
+}));
+
 describe("WorkoutTracker", () => {
   it("renders the WorkoutForm and WorkoutList components correctly", async () => {
+    const mockPush = jest.fn();
+
+    useRouter.mockImplementation(() => ({
+      push: mockPush,
+    }));
+
     render(<WorkoutTracker />);
 
     const formElement = await screen.findByRole("form");
@@ -46,5 +58,12 @@ describe("WorkoutTracker", () => {
 
     const tableElement = screen.getByRole("table");
     expect(tableElement).toBeInTheDocument();
+
+    const modifyButton = screen.getByText("Modify Exercise Types");
+    expect(modifyButton).toBeInTheDocument();
+
+    fireEvent.click(modifyButton);
+
+    expect(mockPush).toHaveBeenCalledWith("/types");
   });
 });
