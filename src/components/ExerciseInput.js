@@ -2,7 +2,6 @@ export default function ExerciseInput({
   selectedExercise,
   exerciseOptions,
   handleExerciseSelectChange,
-  handleAddExercise,
   name,
 }) {
   return (
@@ -29,13 +28,6 @@ export default function ExerciseInput({
           );
         })}
       </select>
-      <button
-        type="button"
-        onClick={handleAddExercise}
-        className="bg-light-button-background text-light-button-text dark:bg-dark-button-background dark:text-dark-button-text rounded px-4 py-2 ml-2"
-      >
-        Add Exercise
-      </button>
     </div>
   );
 }

@@ -17,6 +17,8 @@ export default function ExerciseTypes() {
   const { user } = useAuthContext();
   const [exerciseTypes, setExerciseTypes] = useState([]);
 
+  const [newExerciseTypeName, setNewExerciseTypeName] = useState("");
+
   useEffect(() => {
     const fetchExerciseTypes = async () => {
       if (!user || !user.uid) {
@@ -42,10 +44,9 @@ export default function ExerciseTypes() {
   }, [user]);
 
   const handleAddExerciseType = async () => {
-    const exerciseTypeName = prompt("Enter the exercise type name:");
-    if (!exerciseTypeName) return;
+    if (!newExerciseTypeName) return;
 
-    const exerciseTypeData = { label: exerciseTypeName };
+    const exerciseTypeData = { label: newExerciseTypeName };
     const { result, error } = await addExerciseType(user.uid, exerciseTypeData);
 
     if (error) {
@@ -59,6 +60,8 @@ export default function ExerciseTypes() {
         { value: result.value, label: exerciseTypeData.label },
       ];
     });
+
+    setNewExerciseTypeName("");
   };
 
   const handleUpdateExerciseType = async (index, updatedData) => {
@@ -98,7 +101,21 @@ export default function ExerciseTypes() {
   };
 
   return (
-    <div className="flex-grow overflow-auto">
+    <div className="flex-grow overflow-auto p-6">
+      <div className="flex items-center mt-4">
+        <input
+          value={newExerciseTypeName}
+          onChange={(e) => setNewExerciseTypeName(e.target.value)}
+          placeholder="Exercise Type (eg. Treadmill)"
+          className="mr-4 px-2 py-1 border rounded-lg"
+        />
+        <button
+          onClick={handleAddExerciseType}
+          className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600 transition-colors duration-200"
+        >
+          Add Type
+        </button>
+      </div>
       <table className="mt-4 w-full">
         <thead>
           {exerciseTypes.length > 0 && (
@@ -126,7 +143,6 @@ export default function ExerciseTypes() {
           ))}
         </tbody>
       </table>
-      <button onClick={handleAddExerciseType}>Add Type</button>
     </div>
   );
 }

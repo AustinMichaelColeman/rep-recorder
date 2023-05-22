@@ -7,13 +7,10 @@ import moment from "moment";
 import { useAuthContext } from "@/context/AuthContext";
 import addWorkout from "@/firebase/firestore/addWorkout";
 import defaultExerciseTypes from "@/data/defaultExerciseTypes";
-import { useRouter } from "next/navigation";
-import { getExerciseTypes } from "@/firebase/firestore/exerciseTypes"; // import the function to fetch exercise types
+import { getExerciseTypes } from "@/firebase/firestore/exerciseTypes";
 
 export default function WorkoutForm({ setWorkouts }) {
   const { user } = useAuthContext();
-
-  const router = useRouter();
 
   const [exerciseOptions, setExerciseOptions] = useState(defaultExerciseTypes);
   const [formValues, setFormValues] = useState({
@@ -43,10 +40,6 @@ export default function WorkoutForm({ setWorkouts }) {
       });
     }
   }, [user]);
-
-  const handleAddExercise = () => {
-    router.push("/types");
-  };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -109,7 +102,6 @@ export default function WorkoutForm({ setWorkouts }) {
         selectedExercise={formValues.exercise}
         exerciseOptions={exerciseOptions}
         handleExerciseSelectChange={handleExerciseSelectChange}
-        handleAddExercise={handleAddExercise}
         name="exercise"
       />
       <NumericControl

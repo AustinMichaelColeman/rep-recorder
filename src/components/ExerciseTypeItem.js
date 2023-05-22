@@ -32,22 +32,46 @@ function ExerciseTypeItem({ exerciseType, index, onUpdate, onRemove }) {
   if (isEditing) {
     return (
       <tr>
-        <td>
-          <input value={newExerciseType} onChange={handleInputChange} />
+        <td className="w-64">
+          <input
+            value={newExerciseType}
+            onChange={handleInputChange}
+            className="px-2 py-1 border rounded-lg w-full"
+          />
         </td>
-        <td>
-          <button onClick={handleSaveClick}>Save</button>
-          <button onClick={handleCancelClick}>Cancel</button>
+        <td className="w-48">
+          <button
+            onClick={handleSaveClick}
+            className="px-2 py-1 bg-blue-500 text-white rounded-lg mr-2 hover:bg-blue-600 transition-colors duration-200"
+          >
+            Save
+          </button>
+          <button
+            onClick={handleCancelClick}
+            className="px-2 py-1 bg-gray-300 rounded-lg hover:bg-gray-400 transition-colors duration-200"
+          >
+            Cancel
+          </button>
         </td>
       </tr>
     );
   } else {
     return (
       <tr>
-        <td>{exerciseType.label}</td>
-        <td>
-          <button onClick={handleEditClick}>Edit</button>
-          <button onClick={handleDeleteClick}>Delete</button>
+        <td className="px-4 py-2 w-64">{exerciseType.label}</td>
+        <td className="w-48">
+          <button
+            onClick={handleEditClick}
+            className="px-2 py-1 bg-yellow-300 rounded-lg mr-2 hover:bg-yellow-400 transition-colors duration-200"
+          >
+            Edit
+          </button>
+          <button
+            onClick={handleDeleteClick}
+            className="px-2 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors duration-200"
+          >
+            Delete
+          </button>
         </td>
       </tr>
     );
