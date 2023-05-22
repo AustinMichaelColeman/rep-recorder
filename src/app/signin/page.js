@@ -74,16 +74,19 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-center space-y-4 lg:space-y-0 lg:space-x-4 h-screen bg-gray-100">
+    <div className="flex flex-col lg:flex-row items-center justify-center space-y-4 lg:space-y-0 lg:space-x-4 h-screen bg-gray-100 dark:bg-gray-900">
       <HeaderBar />
-      <div className="p-10 bg-white rounded shadow-lg w-80">
-        <h1 className="mb-6 text-2xl font-semibold text-gray-700">
+      <div className="p-10 bg-white dark:bg-gray-800 rounded shadow-lg w-80">
+        <h1 className="mb-6 text-2xl font-semibold text-gray-700 dark:text-white">
           Welcome Back! Sign In to Rep Recorder
         </h1>
         {errorMessage && <p className="text-red-600">{errorMessage}</p>}
         <form onSubmit={handleForm}>
           <div className="mb-5">
-            <label htmlFor="email" className="block mb-2 text-sm text-gray-600">
+            <label
+              htmlFor="email"
+              className="block mb-2 text-sm text-gray-600 dark:text-gray-300"
+            >
               Email
             </label>
             <input
@@ -92,25 +95,25 @@ export default function Page() {
               type="email"
               name="email"
               id="email"
-              placeholder="example@mail.com"
-              className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+              placeholder="Email"
+              className="w-full px-3 py-2 placeholder-gray-300 dark:placeholder-gray-700 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-400"
             />
           </div>
           <div className="mb-5">
             <label
               htmlFor="password"
-              className="block mb-2 text-sm text-gray-600"
+              className="block mb-2 text-sm text-gray-600 dark:text-gray-300"
             >
               Password
             </label>
             <p
               onClick={handlePasswordReset}
-              className="text-indigo-500 hover:text-indigo-600 hover:underline cursor-pointer"
+              className="text-indigo-500 dark:text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-500 hover:underline cursor-pointer"
             >
               Forgot password?
             </p>
             {resetEmailSent && (
-              <p className="text-green-500">
+              <p className="text-green-500 dark:text-green-400">
                 Password reset email sent! Please check your inbox.
               </p>
             )}
@@ -120,8 +123,8 @@ export default function Page() {
               type="password"
               name="password"
               id="password"
-              placeholder="password"
-              className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+              placeholder="Password"
+              className="w-full px-3 py-2 placeholder-gray-300 dark:placeholder-gray-700 border border-gray-300 dark:border-gray-700 rounded-md focus:outline-none focus:border-indigo-500 dark:focus:border-indigo-400"
             />
           </div>
           <button
@@ -132,10 +135,10 @@ export default function Page() {
           </button>
         </form>
         <div className="text-center mt-4">
-          <p>{"Don't have an account?"}</p>
+          <p className="dark:text-gray-300">{"Don't have an account?"}</p>
           <Link
             href="/signup"
-            className="text-indigo-500 hover:text-indigo-600 hover:underline"
+            className="text-indigo-500 dark:text-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-500 hover:underline"
           >
             Sign Up
           </Link>

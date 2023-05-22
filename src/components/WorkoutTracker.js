@@ -31,10 +31,10 @@ export default function WorkoutTracker() {
   };
 
   return (
-    <div className="flex flex-col flex-grow overflow-hidden">
+    <div className="flex flex-col flex-grow overflow-hidden dark:bg-gray-700">
       <button
         onClick={modifyExerciseTypes}
-        className="mt-4 mr-4 ml-auto inline-flex items-center text-gray-900 hover:text-blue-700 focus:outline-none"
+        className="mt-4 mr-4 ml-auto inline-flex items-center text-gray-900 dark:text-gray-100 hover:text-blue-700 dark:hover:text-gray-300 focus:outline-none"
       >
         Modify Exercise Types
         <svg
@@ -42,7 +42,7 @@ export default function WorkoutTracker() {
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
-          className="h-6 w-6 ml-2"
+          className="h-6 w-6 ml-2 dark:stroke-white"
         >
           <path
             strokeLinecap="round"

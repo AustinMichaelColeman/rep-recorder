@@ -1,6 +1,6 @@
 export default function Credits() {
   return (
-    <p className="text-2xl font-medium text-light-heading dark:text-dark-heading text-center">
+    <p className="text-2xl font-medium text-light-heading dark:text-dark-heading  text-center">
       Check out the code on{" "}
       <a
         title="GitHub code repository for Rep Recorder"

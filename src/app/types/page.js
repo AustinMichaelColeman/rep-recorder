@@ -19,7 +19,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-800">
+    <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900">
       <HeaderBar />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <button
