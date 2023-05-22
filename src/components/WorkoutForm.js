@@ -1,43 +1,51 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NumericControl from "@/components/NumericControl";
 import DateInput from "@/components/DateInput";
 import ExerciseInput from "@/components/ExerciseInput";
 import moment from "moment";
 import { useAuthContext } from "@/context/AuthContext";
 import addWorkout from "@/firebase/firestore/addWorkout";
-
-const initialExerciseOptions = [
-  { value: "Bench Press", label: "Bench Press" },
-  { value: "Dumbbell Curl", label: "Dumbbell Curl" },
-  { value: "Leg Press", label: "Leg Press" },
-  { value: "Overhead Press", label: "Overhead Press" },
-];
+import defaultExerciseTypes from "@/data/defaultExerciseTypes";
+import { useRouter } from "next/navigation";
+import { getExerciseTypes } from "@/firebase/firestore/exerciseTypes"; // import the function to fetch exercise types
 
 export default function WorkoutForm({ setWorkouts }) {
   const { user } = useAuthContext();
 
-  const [exerciseOptions, setExerciseOptions] = useState(
-    initialExerciseOptions
-  );
+  const router = useRouter();
+
+  const [exerciseOptions, setExerciseOptions] = useState(defaultExerciseTypes);
   const [formValues, setFormValues] = useState({
     date: moment().format("YYYY-MM-DD"),
-    exercise: initialExerciseOptions[0].value,
+    exerciseValue: defaultExerciseTypes[0].value,
+    exerciseLabel: defaultExerciseTypes[0].label,
     weight: 0,
     reps: 0,
   });
   const [workoutId, setworkoutId] = useState(0);
 
-  const handleAddExercise = () => {
-    const exerciseName = prompt("Enter the exercise name:");
-    if (!exerciseName) return;
+  useEffect(() => {
+    if (user !== null) {
+      getExerciseTypes(user.uid).then(({ result }) => {
+        if (result.length > 0) {
+          const options = result.map((exerciseType) => ({
+            value: exerciseType.value,
+            label: exerciseType.label,
+          }));
+          setExerciseOptions(options);
+          setFormValues((prevValues) => ({
+            ...prevValues,
+            exerciseValue: options[0].value,
+            exerciseLabel: options[0].label,
+          }));
+        }
+      });
+    }
+  }, [user]);
 
-    const newExercise = { value: exerciseName, label: exerciseName };
-    setExerciseOptions((prevOptions) => [...prevOptions, newExercise]);
-    setFormValues((prevValues) => ({
-      ...prevValues,
-      exercise: exerciseName,
-    }));
+  const handleAddExercise = () => {
+    router.push("/types");
   };
 
   const handleInputChange = (event) => {
@@ -46,8 +54,15 @@ export default function WorkoutForm({ setWorkouts }) {
   };
 
   const handleExerciseSelectChange = (event) => {
-    const exercise = event.target.value;
-    setFormValues((prevValues) => ({ ...prevValues, exercise }));
+    const exerciseValue = event.target.value;
+    const exerciseLabel = exerciseOptions.find(
+      (opt) => opt.value === exerciseValue
+    ).label;
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      exerciseValue,
+      exerciseLabel,
+    }));
   };
 
   const handleSubmit = async (event) => {

@@ -34,14 +34,16 @@ export default function WorkoutList({ workouts, setWorkouts }) {
           )}
         </thead>
         <tbody className="bg-white divide-y divide-gray-300 dark:bg-dark-background dark:divide-gray-700">
-          {workouts.map((workout, index) => (
-            <WorkoutItem
-              key={workout.id}
-              workout={workout}
-              index={index}
-              onRemove={() => handleRemoveWorkout(workout.id)}
-            />
-          ))}
+          {workouts.map((workout, index) => {
+            return (
+              <WorkoutItem
+                key={workout.id}
+                workout={workout}
+                index={index}
+                onRemove={() => handleRemoveWorkout(workout.id)}
+              />
+            );
+          })}
         </tbody>
       </table>
     </div>

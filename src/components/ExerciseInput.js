@@ -21,11 +21,13 @@ export default function ExerciseInput({
         required
         className="border rounded p-2"
       >
-        {exerciseOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
+        {exerciseOptions.map((option) => {
+          return (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          );
+        })}
       </select>
       <button
         type="button"
