@@ -1,10 +1,15 @@
 export default function NumericControl({ label, value, name, step, onChange }) {
   const handleIncrement = () => {
-    onChange({ target: { name, value: value + step } });
+    onChange({ target: { name, value: parseInt(value) + step } });
   };
 
   const handleDecrement = () => {
-    onChange({ target: { name, value: value - step < 0 ? 0 : value - step } });
+    onChange({
+      target: {
+        name,
+        value: parseInt(value) - step < 0 ? 0 : parseInt(value) - step,
+      },
+    });
   };
 
   return (
