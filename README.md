@@ -1,8 +1,6 @@
 # rep-recorder
 
-A workout tracking website created with React.js, Next.js, and Tailwind CSS.
-
-Also uses Jest for testing.
+A workout tracking website created with JavaScript, React.js, Next.js, Tailwind CSS, Jest, and Firebase.
 
 Deployed using Vercel: https://www.RepRecorder.dev/
 
