@@ -84,7 +84,12 @@ export default function Page() {
             By signing up, you agree to our{" "}
             <Link href="/privacy" className="underline">
               privacy policy
+            </Link>{" "}
+            and our{" "}
+            <Link href="/terms" className="underline">
+              terms and conditions
             </Link>
+            .
           </p>
           <button
             type="submit"
