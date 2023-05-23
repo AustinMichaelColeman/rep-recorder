@@ -19,7 +19,7 @@ export default function Credits() {
         rel="noopener noreferrer"
         className="text-green-700 dark:text-green-400 underline hover:no-underline"
       >
-        austincoleman.dev
+        AustinColeman.dev
       </a>
     </p>
   );
