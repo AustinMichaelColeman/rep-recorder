@@ -9,9 +9,9 @@ export default function Credits() {
         rel="noopener noreferrer"
         className="text-green-700 dark:text-green-400 underline hover:no-underline"
       >
-        GitHub.
-      </a>{" "}
-      Created by{" "}
+        GitHub
+      </a>
+      . Created by{" "}
       <a
         title="Austin Coleman's Resume"
         href="https://www.austincoleman.dev/"
