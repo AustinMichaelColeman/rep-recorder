@@ -2,7 +2,7 @@
 
 A workout tracking website created with JavaScript, React.js, Next.js, Tailwind CSS, Jest, and Firebase.
 
-Deployed using Vercel: https://www.RepRecorder.dev/
+Deployed using Vercel: https://www.reprecorder.dev/
 
 ![Tests](https://github.com/AustinMichaelColeman/rep-recorder/actions/workflows/tests.yml/badge.svg)
 
